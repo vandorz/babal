@@ -20,8 +20,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private float ballRadius;
     private Direction ballDirection;
 
-
-
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -45,8 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         this.ball_pos_x = getMiddleX();
         this.ball_pos_y = getMiddleY();
         this.ballDirection = Direction.NORTH;
-        this.ballSpeed = (float) 2;
         this.ballRadius = 50;
+        resetSpeed();
     }
 
     public int getMiddleX() {
@@ -84,9 +82,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void update(){
         updateBallPosition();
         updateBallSpeed();
-        assertBallInArea();
-
         changeBallDirection();
+        assertBallInArea();
     }
 
     private void updateBallPosition(){
@@ -126,6 +123,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         this.ball_pos_y += y_movement;
     }
 
+    public void resetSpeed(){
+        this.ballSpeed = (float) 2;
+    }
+  
     private void updateBallSpeed(){
         this.ballSpeed *= 1.005;
     }
@@ -159,6 +160,4 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
             canvas.drawCircle(ball_pos_x, ball_pos_y, this.ballRadius, paint);
         }
     }
-
-
 }
