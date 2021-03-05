@@ -3,13 +3,8 @@ package com.m2dl.cracotte.babal.activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import com.m2dl.cracotte.babal.R;
-import game.GameView;
 
 public class MainActivity extends Activity {
     private Button playButton;
