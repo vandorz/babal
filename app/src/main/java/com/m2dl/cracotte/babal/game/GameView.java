@@ -110,8 +110,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update(){
         updateBallPosition();
-        updateBallMovement();
-        processColors();
         updateBallSpeed();
         changeBallDirection();
         assertBallInArea();
