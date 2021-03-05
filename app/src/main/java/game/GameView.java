@@ -8,14 +8,26 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private GameThread thread;
-    private int x = 0;
+    private final GameThread thread;
+
+    private int x;
+    private int y;
 
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
-        thread = new GameThread(getHolder(), this);
         setFocusable(true);
+        this.thread = new GameThread(getHolder(), this);
+        this.x = getMiddleX();
+        this.y = getMiddleY();
+    }
+
+    public int getMiddleX() {
+        return this.getResources().getDisplayMetrics().widthPixels / 2;
+    }
+
+    public int getMiddleY() {
+        return this.getResources().getDisplayMetrics().heightPixels / 2;
     }
 
     @Override
@@ -27,7 +39,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-
     }
 
     @Override
@@ -42,11 +53,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
-
     }
 
     public void update(){
-        x = (x + 2) % 300;
+
     }
 
     @Override
@@ -56,7 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawColor(Color.WHITE);
             Paint paint = new Paint();
             paint.setColor(Color.rgb(250, 0, 0));
-            canvas.drawRect(x, 100, x+100, 200, paint);
+            canvas.drawCircle(x, y, 50, paint);
         }
     }
 }
