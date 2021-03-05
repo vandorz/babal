@@ -13,10 +13,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private float ball_pos_x;
     private float ball_pos_y;
-    private float ball_speed;
+    private float ballSpeed;
     private Directions ballDirection;
-
-
 
     public GameView(Context context) {
         super(context);
@@ -34,7 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.ball_pos_x = getMiddleX();
         this.ball_pos_y = getMiddleY();
         this.ballDirection = Directions.NORTH;
-        this.ball_speed = (float) 2;
+        resetSpeed();
     }
 
     public int getMiddleX() {
@@ -73,7 +71,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(){
         updateBallPosition();
         updateBallMovement();
-
     }
 
     private void updateBallPosition(){
@@ -81,32 +78,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         float y_movement = 0;
         switch (this.ballDirection){
             case NORTH:
-                y_movement = -this.ball_speed;
+                y_movement = -this.ballSpeed;
                 break;
             case NORTH_EAST:
-                x_movement = this.ball_speed;
-                y_movement = -this.ball_speed;
+                x_movement = this.ballSpeed;
+                y_movement = -this.ballSpeed;
                 break;
             case EAST:
-                x_movement = this.ball_speed;
+                x_movement = this.ballSpeed;
                 break;
             case SOUTH_EAST:
-                x_movement = this.ball_speed;
-                y_movement = this.ball_speed;
+                x_movement = this.ballSpeed;
+                y_movement = this.ballSpeed;
                 break;
             case SOUTH:
-                y_movement = this.ball_speed;
+                y_movement = this.ballSpeed;
                 break;
             case SOUTH_WEST:
-                x_movement = -this.ball_speed;
-                y_movement = this.ball_speed;
+                x_movement = -this.ballSpeed;
+                y_movement = this.ballSpeed;
                 break;
             case WEST:
-                x_movement = -this.ball_speed;
+                x_movement = -this.ballSpeed;
                 break;
             case NORTH_WEST:
-                x_movement = -this.ball_speed;
-                y_movement = -this.ball_speed;
+                x_movement = -this.ballSpeed;
+                y_movement = -this.ballSpeed;
                 break;
         }
         this.ball_pos_x += x_movement;
@@ -114,7 +111,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void updateBallMovement(){
-        this.ball_speed *= 1.005;
+        this.ballSpeed *= 1.005;
+    }
+
+    public void resetSpeed(){
+        this.ballSpeed = (float) 2;
     }
 
     @Override
