@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.provider.Settings;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -19,6 +20,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private float ballSpeed;
     private float ballRadius;
     private Direction ballDirection;
+    private int backgroundColor;
+    private int ballColor;
 
     public GameView(Context context) {
         super(context);
@@ -47,12 +50,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         resetSpeed();
     }
 
+    public int getPixelWidth() {
+        return this.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public int getPixelHeight() {
+        return this.getResources().getDisplayMetrics().heightPixels;
+    }
+
     public int getMiddleX() {
-        return this.getResources().getDisplayMetrics().widthPixels / 2;
+        return getPixelWidth() / 2;
     }
 
     public int getMiddleY() {
-        return this.getResources().getDisplayMetrics().heightPixels / 2;
+        return getPixelHeight() / 2;
+    }
+    
+    private void processColors() {
+        processBackgroundColor();
+        processBallColor();
+    }
+
+    private void processBackgroundColor() {
+        this.backgroundColor = Color.WHITE;
+    }
+
+    private void processBallColor() {
+        float positionXPercentage = (ball_pos_x < getPixelWidth() && ball_pos_x > 0) ? ball_pos_x / getPixelWidth() * 100f : 0f;
+        float positionYPercentage = (ball_pos_y < getPixelHeight() && ball_pos_y > 0) ? ball_pos_y / getPixelHeight() * 100f : 0f;
+        int red = Math.round(positionXPercentage * (255f/100f));
+        int green = 0;
+        int blue = Math.round(positionYPercentage * (255f/100f));
+        this.ballColor = Color.rgb(red, green, blue);
     }
 
     @Override
@@ -81,9 +110,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update(){
         updateBallPosition();
+        updateBallMovement();
+        processColors();
         updateBallSpeed();
         changeBallDirection();
         assertBallInArea();
+        processColors();
     }
 
     private void updateBallPosition(){
@@ -154,9 +186,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (canvas != null) {
-            canvas.drawColor(Color.WHITE);
+            canvas.drawColor(this.backgroundColor);
             Paint paint = new Paint();
-            paint.setColor(Color.rgb(250, 0, 0));
+            paint.setColor(this.ballColor);
             canvas.drawCircle(ball_pos_x, ball_pos_y, this.ballRadius, paint);
         }
     }
