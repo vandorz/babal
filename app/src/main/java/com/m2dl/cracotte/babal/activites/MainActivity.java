@@ -1,19 +1,14 @@
 package com.m2dl.cracotte.babal.activites;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import com.m2dl.cracotte.babal.R;
-
 import game.GameView;
 
 public class MainActivity extends Activity {

@@ -1,48 +1,41 @@
-package game;
+package com.m2dl.cracotte.babal.game;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.view.SurfaceHolder;
-
-import static java.lang.Thread.sleep;
+import android.widget.Toast;
 
 public class GameThread extends Thread{
-    private SurfaceHolder surfaceHolder;
-    private GameView gameView;
+    private final SurfaceHolder surfaceHolder;
+    private final GameView gameView;
+    private final Handler mHandler;
+
     private boolean running;
     private Canvas canvas;
-    private Handler mHandler;
-
-    private Runnable mUpdateTimeTask = new Runnable() {
-        @Override
-        public void run() {
-            mHandler.postDelayed(this, 1000);
-        }
-    };
 
     public GameThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
-
-        mHandler = new Handler();
-
+        this.mHandler = new Handler();
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void run() {
         while (running) {
             canvas = null;
-
             try {
-                sleep(50);
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized(surfaceHolder) {
-                    mHandler.postDelayed(gameView::update, 100);
+                    this.gameView.update();
                     this.gameView.draw(canvas);
                 }
-            } catch (Exception e) {}
-            finally {
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                Toast.makeText(this.gameView.getContext(), "Une erreur est survenue", Toast.LENGTH_LONG);
+            } finally {
                 if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
@@ -50,7 +43,7 @@ public class GameThread extends Thread{
                         e.printStackTrace();
                     }
                 }
-                mHandler.postDelayed(this::run, 100);
+                mHandler.postDelayed(this, 1000/60);
             }
         }
     }
