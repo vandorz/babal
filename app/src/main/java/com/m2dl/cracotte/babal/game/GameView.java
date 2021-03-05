@@ -9,8 +9,6 @@ import android.view.SurfaceView;
 
 import com.m2dl.cracotte.babal.utils.Direction;
 
-import java.util.ArrayList;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private final GameThread thread;
 

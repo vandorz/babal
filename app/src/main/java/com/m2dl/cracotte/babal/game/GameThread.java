@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
 public class GameThread extends Thread{
     private final SurfaceHolder surfaceHolder;
@@ -25,7 +24,7 @@ public class GameThread extends Thread{
     @SuppressLint("ShowToast")
     @Override
     public void run() {
-        while (running) {
+        if (running) {
             canvas = null;
             try {
                 canvas = this.surfaceHolder.lockCanvas();
