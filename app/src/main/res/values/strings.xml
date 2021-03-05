@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Babal</string>
+    <string name="menu_textView_titreJeu">BABAL</string>
+    <string name="menu_button_lancerJeu">Jouer</string>
+    <string name="menu_button_quitterJeu">Quitter</string>
+    <string name="menu_textView_copyright">Copyright : Aymeric Pinel, Clément Guichard, Romain Goyheneix (support Alessandra Franzese)</string>
 </resources>
