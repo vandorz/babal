@@ -1,12 +1,10 @@
-package game;
+package com.m2dl.cracotte.babal.game;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
-
-import static java.lang.Thread.sleep;
 
 public class GameThread extends Thread{
     private final SurfaceHolder surfaceHolder;
