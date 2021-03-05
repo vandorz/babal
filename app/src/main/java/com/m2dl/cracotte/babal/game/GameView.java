@@ -10,8 +10,6 @@ import android.view.SurfaceView;
 
 import com.m2dl.cracotte.babal.utils.Direction;
 
-import java.util.ArrayList;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private final GameThread thread;
 
@@ -113,9 +111,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void update(){
         updateBallPosition();
         updateBallSpeed();
-        changeBallDirection();
-        assertBallInArea();
         processColors();
+        assertBallInArea();
     }
 
     private void updateBallPosition(){
@@ -163,7 +160,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         this.ballSpeed *= 1.005;
     }
 
-    private void changeBallDirection(){
+    public void changeBallDirection(){
         Direction nouvelleDirection = this.ballDirection;
         while (nouvelleDirection == this.ballDirection){
             nouvelleDirection = Direction.getRandom();
