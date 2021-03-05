@@ -9,17 +9,32 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private final GameThread thread;
+    private enum Directions {NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
 
-    private int x;
-    private int y;
+    private float ball_pos_x;
+    private float ball_pos_y;
+    private float ball_speed;
+    private Directions ballDirection;
+
+
 
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
         setFocusable(true);
         this.thread = new GameThread(getHolder(), this);
-        this.x = getMiddleX();
-        this.y = getMiddleY();
+        initGame();
+    }
+
+    private void initGame(){
+        initBall();
+    }
+
+    private void initBall(){
+        this.ball_pos_x = getMiddleX();
+        this.ball_pos_y = getMiddleY();
+        this.ballDirection = Directions.NORTH;
+        this.ball_speed = (float) 2;
     }
 
     public int getMiddleX() {
@@ -56,7 +71,50 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
+        updateBallPosition();
+        updateBallMovement();
 
+    }
+
+    private void updateBallPosition(){
+        float x_movement = 0;
+        float y_movement = 0;
+        switch (this.ballDirection){
+            case NORTH:
+                y_movement = -this.ball_speed;
+                break;
+            case NORTH_EAST:
+                x_movement = this.ball_speed;
+                y_movement = -this.ball_speed;
+                break;
+            case EAST:
+                x_movement = this.ball_speed;
+                break;
+            case SOUTH_EAST:
+                x_movement = this.ball_speed;
+                y_movement = this.ball_speed;
+                break;
+            case SOUTH:
+                y_movement = this.ball_speed;
+                break;
+            case SOUTH_WEST:
+                x_movement = -this.ball_speed;
+                y_movement = this.ball_speed;
+                break;
+            case WEST:
+                x_movement = -this.ball_speed;
+                break;
+            case NORTH_WEST:
+                x_movement = -this.ball_speed;
+                y_movement = -this.ball_speed;
+                break;
+        }
+        this.ball_pos_x += x_movement;
+        this.ball_pos_y += y_movement;
+    }
+
+    private void updateBallMovement(){
+        this.ball_speed *= 1.005;
     }
 
     @Override
@@ -66,7 +124,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawColor(Color.WHITE);
             Paint paint = new Paint();
             paint.setColor(Color.rgb(250, 0, 0));
-            canvas.drawCircle(x, y, 50, paint);
+            canvas.drawCircle(ball_pos_x, ball_pos_y, 50, paint);
         }
     }
 }
