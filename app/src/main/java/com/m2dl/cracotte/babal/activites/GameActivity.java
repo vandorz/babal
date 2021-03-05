@@ -5,6 +5,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -32,6 +33,7 @@ public class GameActivity extends Activity {
     protected void onResume() {
         super.onResume();
         initAccelerometer();
+        initTouchScreen();
     }
 
     @Override
@@ -48,6 +50,15 @@ public class GameActivity extends Activity {
     private void initAccelerometer() {
         Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    private void initTouchScreen(){
+        gameView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameView.changeBallDirection();
+            }
+        });
     }
 
     private void destroyAccelerometer() {
