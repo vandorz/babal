@@ -7,14 +7,20 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private final GameThread thread;
-    private enum Directions {NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST};
+import com.m2dl.cracotte.babal.utils.Direction;
 
+import java.util.ArrayList;
+
+public class GameView extends SurfaceView implements SurfaceHolder.Callback{
+    private final GameThread thread;
+
+    private float screenHeight;
+    private float screenWidth;
     private float ball_pos_x;
     private float ball_pos_y;
     private float ballSpeed;
-    private Directions ballDirection;
+    private float ballRadius;
+    private Direction ballDirection;
 
     public GameView(Context context) {
         super(context);
@@ -25,13 +31,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void initGame(){
+        initGameArea();
         initBall();
+        thread.setRunning(true);
+    }
+
+    private void initGameArea(){
+        screenWidth = this.getResources().getDisplayMetrics().widthPixels;
+        screenHeight = this.getResources().getDisplayMetrics().heightPixels;
     }
 
     private void initBall(){
         this.ball_pos_x = getMiddleX();
         this.ball_pos_y = getMiddleY();
-        this.ballDirection = Directions.NORTH;
+        this.ballDirection = Direction.NORTH;
+        this.ballRadius = 50;
         resetSpeed();
     }
 
@@ -45,7 +59,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
     }
 
     @Override
@@ -70,7 +83,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         updateBallPosition();
-        updateBallMovement();
+        updateBallSpeed();
+        changeBallDirection();
+        assertBallInArea();
     }
 
     private void updateBallPosition(){
@@ -110,12 +125,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.ball_pos_y += y_movement;
     }
 
-    private void updateBallMovement(){
+    public void resetSpeed(){
+        this.ballSpeed = (float) 2;
+    }
+  
+    private void updateBallSpeed(){
         this.ballSpeed *= 1.005;
     }
 
-    public void resetSpeed(){
-        this.ballSpeed = (float) 2;
+    private void changeBallDirection(){
+        Direction nouvelleDirection = this.ballDirection;
+        while (nouvelleDirection == this.ballDirection){
+            nouvelleDirection = Direction.getRandom();
+        }
+        this.ballDirection = nouvelleDirection;
+    }
+
+    private void assertBallInArea(){
+        if (this.ball_pos_x < 0 + this.ballRadius || this.ball_pos_y < 0 + this.ballRadius || this.ball_pos_x > screenWidth - ballRadius || this.ball_pos_y > screenHeight - ballRadius){
+            stopGame();
+        }
+    }
+
+    private void stopGame(){
+        thread.setRunning(false);
+        initGame();
     }
 
     @Override
@@ -125,7 +159,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawColor(Color.WHITE);
             Paint paint = new Paint();
             paint.setColor(Color.rgb(250, 0, 0));
-            canvas.drawCircle(ball_pos_x, ball_pos_y, 50, paint);
+            canvas.drawCircle(ball_pos_x, ball_pos_y, this.ballRadius, paint);
         }
     }
 }
