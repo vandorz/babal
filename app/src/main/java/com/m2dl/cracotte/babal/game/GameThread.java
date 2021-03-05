@@ -21,6 +21,7 @@ public class GameThread extends Thread{
         this.mHandler = new Handler();
     }
 
+
     @SuppressLint("ShowToast")
     @Override
     public void run() {
@@ -34,7 +35,7 @@ public class GameThread extends Thread{
                 }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
-                Toast.makeText(this.gameView.getContext(), "Une erreur est survenue", Toast.LENGTH_LONG);
+                //Toast.makeText(this.gameView.getContext(), "Une erreur est survenue", Toast.LENGTH_LONG);
             } finally {
                 if (canvas != null) {
                     try {
