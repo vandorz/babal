@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class AccelerometerListener implements SensorEventListener {
 
-    private static final int ACCEL_THRESHOLD = 5;
+    private static final int ACCEL_THRESHOLD = 20;
     private static final long TIME_BETWEEN_RESETS = 3000;
     private final GameView gameView;
     private Date lastReset;
