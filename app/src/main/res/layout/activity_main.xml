@@ -11,7 +11,7 @@
         android:id="@+id/menu_button_lancerJeu"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="60dp"
         android:text="@string/menu_button_lancerJeu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -19,14 +19,26 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_textView_titreJeu" />
 
     <Button
+        android:id="@+id/menu_button_scores"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/menu_button_scores"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menu_button_lancerJeu" />
+
+    <Button
         android:id="@+id/menu_button_quitterJeu"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:text="@string/menu_button_quitterJeu"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menu_button_lancerJeu" />
+        app:layout_constraintTop_toBottomOf="@+id/menu_button_scores" />
 
     <TextView
         android:id="@+id/menu_textView_titreJeu"
@@ -49,5 +61,6 @@
         android:textSize="6sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

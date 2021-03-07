@@ -8,6 +8,7 @@ import com.m2dl.cracotte.babal.R;
 
 public class MainActivity extends Activity {
     private Button playButton;
+    private Button scoresButton;
     private Button leaveButton;
 
     @Override
@@ -19,21 +20,30 @@ public class MainActivity extends Activity {
 
     private void initComponents(){
         initPlayButton();
+        initScoresButton();
         initLeaveButton();
     }
 
     private void initPlayButton(){
-        playButton = findViewById(R.id.menu_button_lancerJeu);
-        System.out.println(playButton);
-        playButton.setOnClickListener(v -> {
+        this.playButton = findViewById(R.id.menu_button_lancerJeu);
+        this.playButton.setOnClickListener(v -> {
             Intent gameIntent = new Intent().setClass(v.getContext(), GameActivity.class);
             startActivity(gameIntent);
             finish();
         });
     }
 
+    private void initScoresButton(){
+        this.playButton = findViewById(R.id.menu_button_scores);
+        this.playButton.setOnClickListener(v -> {
+            Intent scoresIntent = new Intent().setClass(v.getContext(), ScoresActivity.class);
+            startActivity(scoresIntent);
+            finish();
+        });
+    }
+
     private void initLeaveButton(){
-        leaveButton = findViewById(R.id.menu_button_quitterJeu);
-        leaveButton.setOnClickListener(v -> finish());
+        this.leaveButton = findViewById(R.id.menu_button_quitterJeu);
+        this.leaveButton.setOnClickListener(v -> finish());
     }
 }

@@ -30,16 +30,26 @@ public class GameActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        destroyAccelerometer();
+        gameView.pauseMusic();
+        finish(); //Le jeu ne gère pas le resume pour le moment. Donc si on pause, on ferme tout.
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         initAccelerometer();
         initTouchScreen();
+        gameView.startMusic();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         destroyAccelerometer();
+        gameView.stopMusic();
     }
 
     private void initListeners() {
@@ -56,7 +66,7 @@ public class GameActivity extends Activity {
         gameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameView.changeBallDirection();
+                gameView.touchedScreenEvent();
             }
         });
     }
