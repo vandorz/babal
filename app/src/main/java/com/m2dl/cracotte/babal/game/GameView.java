@@ -290,6 +290,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         Activity gameActivity = (Activity) context;
         Intent scoresIntent = new Intent().setClass(context, ScoresActivity.class);
         scoresIntent.putExtra("scorePerformed", this.score);
+        scoresIntent.putExtra("hasNewScore", true);
         context.startActivity(scoresIntent);
         gameActivity.finish();
     }
