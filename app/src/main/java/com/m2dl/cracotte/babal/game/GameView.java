@@ -1,6 +1,8 @@
 package com.m2dl.cracotte.babal.game;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +10,8 @@ import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.m2dl.cracotte.babal.R;
+import com.m2dl.cracotte.babal.activites.ScoresActivity;
 import com.m2dl.cracotte.babal.utils.Direction;
 
 import static com.m2dl.cracotte.babal.R.*;
@@ -22,6 +26,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private final int MENU_LINES_WIDTH = 5;
     private final int MENU_HEIGHT = 200;
     private final int DEFAULT_TEXT_SIZE = 50;
+    private final String TEXTE_MENU_SCORE = "Score";
+    private final String TEXTE_MENU_VALEUR_CLIC = "Valeur d'un clic";
 
     private float screenHeight;
     private float screenWidth;
@@ -59,6 +65,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         initBall();
         initScore();
         thread.setRunning(true);
+        initMediaPlayer();
         startMusic();
     }
 
@@ -181,8 +188,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         paint.setTextSize(DEFAULT_TEXT_SIZE);
         int leftMarge = 100;
         int topMarge = (MENU_HEIGHT /3)*2;
-        canvas.drawText("Valeur d'un clic : " + this.currentPoints, leftMarge, topMarge, paint);
-        canvas.drawText("Score : " + this.score, this.screenWidth - (4*leftMarge), topMarge, paint);
+        canvas.drawText(TEXTE_MENU_VALEUR_CLIC + " : " + this.currentPoints, leftMarge, topMarge, paint);
+        canvas.drawText(TEXTE_MENU_SCORE +" : " + this.score, this.screenWidth - (4*leftMarge), topMarge, paint);
     }
 
     /**
@@ -275,7 +282,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private void stopGame(){
         thread.setRunning(false);
         stopMusic();
-        initGame();
+        launchScoresActivity();
+    }
+
+    public void launchScoresActivity(){
+        Context context = getContext();
+        Activity gameActivity = (Activity) context;
+        Intent scoresIntent = new Intent().setClass(context, ScoresActivity.class);
+        scoresIntent.putExtra("scorePerformed", this.score);
+        context.startActivity(scoresIntent);
+        gameActivity.finish();
     }
 
     /**
@@ -287,21 +303,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void startMusic(){
-        if (Boolean.FALSE.equals(mediaPlayer.isPlaying())){
+        if (mediaPlayer != null && Boolean.FALSE.equals(mediaPlayer.isPlaying())){
             mediaPlayer.start();
             mediaPlayer.setLooping(true);
         }
     }
 
     public void pauseMusic(){
-        mediaPlayer.pause();
-        mediaPlayer.release();
+        if (mediaPlayer != null && Boolean.TRUE.equals(mediaPlayer.isPlaying())) {
+            mediaPlayer.pause();
+            mediaPlayer.release();
+        }
     }
 
     public void stopMusic(){
-        mediaPlayer.stop();
-        mediaPlayer.reset();
-        mediaPlayer = MediaPlayer.create(this.getContext(), raw.music_game_1);
+        if (mediaPlayer != null && Boolean.TRUE.equals(mediaPlayer.isPlaying())) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+        }
     }
 
 

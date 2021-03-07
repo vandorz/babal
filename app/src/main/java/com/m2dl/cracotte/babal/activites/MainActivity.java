@@ -23,9 +23,8 @@ public class MainActivity extends Activity {
     }
 
     private void initPlayButton(){
-        playButton = findViewById(R.id.menu_button_lancerJeu);
-        System.out.println(playButton);
-        playButton.setOnClickListener(v -> {
+        this.playButton = findViewById(R.id.menu_button_lancerJeu);
+        this.playButton.setOnClickListener(v -> {
             Intent gameIntent = new Intent().setClass(v.getContext(), GameActivity.class);
             startActivity(gameIntent);
             finish();
@@ -33,7 +32,7 @@ public class MainActivity extends Activity {
     }
 
     private void initLeaveButton(){
-        leaveButton = findViewById(R.id.menu_button_quitterJeu);
-        leaveButton.setOnClickListener(v -> finish());
+        this.leaveButton = findViewById(R.id.menu_button_quitterJeu);
+        this.leaveButton.setOnClickListener(v -> finish());
     }
 }
