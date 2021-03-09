@@ -21,7 +21,7 @@ import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.game.GameActivity;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 import com.m2dl.cracotte.babal.scores.domain.Score;
-import com.m2dl.cracotte.babal.scores.domain.ScoreTable;
+import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class ScoresActivity extends Activity {
     private final int NB_SCORES_AFFICHES = 10;
 
     private DatabaseReference mDatabase;
-    private ScoreTable scoreTable;
+    private ScoresTable scoresTable;
     String[] playerNamesList = new String[NB_SCORES_AFFICHES];
     String[] playerScoresList = new String[NB_SCORES_AFFICHES];
 
@@ -69,16 +69,16 @@ public class ScoresActivity extends Activity {
                 DataSnapshot scoreTableDataSnapshot = dataSnapshot.child("tableauScores");
 
 
-                ScoreTable newScoreTable = new ScoreTable();
-                newScoreTable.setNbScores(scoreTableDataSnapshot.child("nbScores").getValue(Long.class));
+                ScoresTable newScoresTable = new ScoresTable();
+                newScoresTable.setNbScores(scoreTableDataSnapshot.child("nbScores").getValue(Long.class));
                 Map<String, Score> scoresMap = new HashMap<>();
                 for (DataSnapshot currentChild : scoreTableDataSnapshot.child("scores").getChildren()){
                     String key = currentChild.getKey();
                     Score currentScore = currentChild.getValue(Score.class);
                     scoresMap.put(key, currentScore);
                 }
-                newScoreTable.setScores(scoresMap);
-                scoreTable = newScoreTable;
+                newScoresTable.setScores(scoresMap);
+                scoresTable = newScoresTable;
                 updateDynamicData();
             }
 
@@ -109,15 +109,15 @@ public class ScoresActivity extends Activity {
     }
 
     private void initAffichageScores(){
-        if (this.scoreTable != null){
+        if (this.scoresTable != null){
             TreeSet<Score> treeSetScores = new TreeSet<>();
-            for (Map.Entry<String, Score> entry : scoreTable.getScores().entrySet()){
+            for (Map.Entry<String, Score> entry : scoresTable.getScores().entrySet()){
                 treeSetScores.add(entry.getValue());
             }
 
 
             for (int i = 1; i<=NB_SCORES_AFFICHES; i++){
-                if (i >= this.scoreTable.getNbScores()){
+                if (i >= this.scoresTable.getNbScores()){
                     break;
                 }
                 Score currentScore = treeSetScores.pollFirst();
@@ -144,11 +144,11 @@ public class ScoresActivity extends Activity {
     private void initPublishScoreButton(){
         this.publishScoreButton  = findViewById(R.id.score_button_publier);
         this.publishScoreButton.setOnClickListener(v -> {
-            if (hasNewScore && scoreTable != null){
-                scoreTable.setNbScores(scoreTable.getNbScores()+1);
+            if (hasNewScore && scoresTable != null){
+                scoresTable.setNbScores(scoresTable.getNbScores()+1);
                 String playerName = "null";
-                scoreTable.putScore((scoreTable.getNbScores()) + "", new Score(playerName, (long) score));
-                mDatabase.child("tableauScores").setValue(scoreTable);
+                scoresTable.putScore((scoresTable.getNbScores()) + "", new Score(playerName, (long) score));
+                mDatabase.child("tableauScores").setValue(scoresTable);
                 hasNewScore = false;
             }else{
                 //TODO ...
@@ -191,8 +191,8 @@ public class ScoresActivity extends Activity {
 
     private void initRecyclerView(){
         recyclerView = findViewById(R.id.score_recyclerView_affichageScores);
-        ScoreAdapter scoreAdapter = new ScoreAdapter(playerNamesList,playerScoresList);
-        recyclerView.setAdapter(scoreAdapter);
+        ScoresAdapter scoresAdapter = new ScoresAdapter(playerNamesList,playerScoresList);
+        recyclerView.setAdapter(scoresAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 

@@ -4,11 +4,11 @@ import com.m2dl.cracotte.babal.scores.domain.Score;
 
 import java.util.Map;
 
-public class ScoreTable {
+public class ScoresTable {
     private Long nbScores;
     private Map<String, Score> scores;
 
-    public ScoreTable(){
+    public ScoresTable(){
 
     }
 

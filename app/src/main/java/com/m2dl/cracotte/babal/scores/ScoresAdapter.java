@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.m2dl.cracotte.babal.R;
 
-public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> {
+public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ViewHolder> {
     private String[] localDataSetNomJoueur;
     private String[] localDataSetScoreJoueur;
 
-    public ScoreAdapter(String[] dataSetNomJoueur, String[] dataSetScoreJoueur){
+    public ScoresAdapter(String[] dataSetNomJoueur, String[] dataSetScoreJoueur){
         this.localDataSetNomJoueur = dataSetNomJoueur;
         this.localDataSetScoreJoueur = dataSetScoreJoueur;
     }
