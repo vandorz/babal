@@ -1,4 +1,6 @@
-package com.m2dl.cracotte.babal.entities;
+package com.m2dl.cracotte.babal.scores.domain;
+
+import com.m2dl.cracotte.babal.scores.domain.Score;
 
 import java.util.Map;
 

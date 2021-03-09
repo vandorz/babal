@@ -1,10 +1,12 @@
-package com.m2dl.cracotte.babal.activites;
+package com.m2dl.cracotte.babal.menu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import com.m2dl.cracotte.babal.R;
+import com.m2dl.cracotte.babal.game.GameActivity;
+import com.m2dl.cracotte.babal.scores.ScoresActivity;
 
 public class MenuActivity extends Activity {
     private Button playButton;

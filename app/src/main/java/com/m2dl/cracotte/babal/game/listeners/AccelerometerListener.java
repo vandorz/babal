@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.listeners;
+package com.m2dl.cracotte.babal.game.listeners;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

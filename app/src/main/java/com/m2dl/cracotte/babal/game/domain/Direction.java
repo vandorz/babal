@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.utils;
+package com.m2dl.cracotte.babal.game.domain;
 
 public enum Direction {
     NORTH,

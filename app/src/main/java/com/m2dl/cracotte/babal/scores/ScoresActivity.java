@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.activites;
+package com.m2dl.cracotte.babal.scores;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,9 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.m2dl.cracotte.babal.R;
-import com.m2dl.cracotte.babal.entities.Score;
-import com.m2dl.cracotte.babal.entities.ScoreTable;
-import com.m2dl.cracotte.babal.views.ScoreAdapter;
+import com.m2dl.cracotte.babal.game.GameActivity;
+import com.m2dl.cracotte.babal.menu.MenuActivity;
+import com.m2dl.cracotte.babal.scores.domain.Score;
+import com.m2dl.cracotte.babal.scores.domain.ScoreTable;
 
 import java.util.HashMap;
 import java.util.Map;

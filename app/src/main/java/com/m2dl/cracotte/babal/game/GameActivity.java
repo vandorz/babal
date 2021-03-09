@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.activites;
+package com.m2dl.cracotte.babal.game;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.m2dl.cracotte.babal.game.GameView;
-import com.m2dl.cracotte.babal.listeners.AccelerometerListener;
+import com.m2dl.cracotte.babal.game.listeners.AccelerometerListener;
 
 public class GameActivity extends Activity {
 

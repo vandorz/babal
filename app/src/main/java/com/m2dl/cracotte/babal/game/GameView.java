@@ -10,9 +10,8 @@ import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.m2dl.cracotte.babal.R;
-import com.m2dl.cracotte.babal.activites.ScoresActivity;
-import com.m2dl.cracotte.babal.utils.Direction;
+import com.m2dl.cracotte.babal.game.domain.Direction;
+import com.m2dl.cracotte.babal.scores.ScoresActivity;
 
 import static com.m2dl.cracotte.babal.R.*;
 

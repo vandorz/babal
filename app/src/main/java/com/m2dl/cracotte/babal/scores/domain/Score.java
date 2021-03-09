@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.entities;
+package com.m2dl.cracotte.babal.scores.domain;
 
 public class Score implements Comparable{
     private String playerName;

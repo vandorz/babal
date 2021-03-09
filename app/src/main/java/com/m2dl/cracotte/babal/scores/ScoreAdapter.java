@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.views;
+package com.m2dl.cracotte.babal.scores;
 
 import android.view.LayoutInflater;
 import android.view.View;
