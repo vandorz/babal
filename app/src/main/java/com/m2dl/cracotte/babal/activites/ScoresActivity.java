@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -174,7 +173,7 @@ public class ScoresActivity extends Activity {
     private void initMenuButton(){
         this.menuButton = findViewById(R.id.score_button_menu);
         this.menuButton.setOnClickListener(v -> {
-            Intent mainIntent = new Intent().setClass(v.getContext(), MainActivity.class);
+            Intent mainIntent = new Intent().setClass(v.getContext(), MenuActivity.class);
             startActivity(mainIntent);
             finish();
         });
