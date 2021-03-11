@@ -10,7 +10,7 @@ public enum Direction {
     WEST,
     NORTH_WEST;
 
-    public static Direction getRandom(){
+    public static Direction getRandom() {
         return values()[(int) (Math.random() * values().length)];
     }
 }

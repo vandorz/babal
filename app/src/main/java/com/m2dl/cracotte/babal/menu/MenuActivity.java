@@ -20,32 +20,32 @@ public class MenuActivity extends Activity {
         initComponents();
     }
 
-    private void initComponents(){
+    private void initComponents() {
         initPlayButton();
         initScoresButton();
         initLeaveButton();
     }
 
-    private void initPlayButton(){
-        this.playButton = findViewById(R.id.menu_button_lancerJeu);
-        this.playButton.setOnClickListener(v -> {
-            Intent gameIntent = new Intent().setClass(v.getContext(), GameActivity.class);
+    private void initPlayButton() {
+        playButton = findViewById(R.id.menu_button_lancerJeu);
+        playButton.setOnClickListener(listener -> {
+            Intent gameIntent = new Intent().setClass(listener.getContext(), GameActivity.class);
             startActivity(gameIntent);
             finish();
         });
     }
 
-    private void initScoresButton(){
-        this.playButton = findViewById(R.id.menu_button_scores);
-        this.playButton.setOnClickListener(v -> {
-            Intent scoresIntent = new Intent().setClass(v.getContext(), ScoresActivity.class);
+    private void initScoresButton() {
+        scoresButton = findViewById(R.id.menu_button_scores);
+        scoresButton.setOnClickListener(listener -> {
+            Intent scoresIntent = new Intent().setClass(listener.getContext(), ScoresActivity.class);
             startActivity(scoresIntent);
             finish();
         });
     }
 
-    private void initLeaveButton(){
-        this.leaveButton = findViewById(R.id.menu_button_quitterJeu);
-        this.leaveButton.setOnClickListener(v -> finish());
+    private void initLeaveButton() {
+        leaveButton = findViewById(R.id.menu_button_quitterJeu);
+        leaveButton.setOnClickListener(v -> finish());
     }
 }
