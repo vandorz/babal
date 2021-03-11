@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.utils;
+package com.m2dl.cracotte.babal.game.domain;
 
 public enum Direction {
     NORTH,
@@ -10,7 +10,7 @@ public enum Direction {
     WEST,
     NORTH_WEST;
 
-    public static Direction getRandom(){
+    public static Direction getRandom() {
         return values()[(int) (Math.random() * values().length)];
     }
 }

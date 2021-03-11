@@ -1,12 +1,12 @@
-package com.m2dl.cracotte.babal.entities;
+package com.m2dl.cracotte.babal.scores.domain;
 
 import java.util.Map;
 
-public class ScoreTable {
+public class ScoresTable {
     private Long nbScores;
     private Map<String, Score> scores;
 
-    public ScoreTable(){
+    public ScoresTable() {
 
     }
 
@@ -27,7 +27,6 @@ public class ScoreTable {
     }
 
     public void putScore(String key, Score value){
-        this.scores.put(key, value);
+        scores.put(key, value);
     }
-
 }

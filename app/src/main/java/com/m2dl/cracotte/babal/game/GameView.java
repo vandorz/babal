@@ -10,29 +10,28 @@ import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.m2dl.cracotte.babal.R;
-import com.m2dl.cracotte.babal.activites.ScoresActivity;
-import com.m2dl.cracotte.babal.utils.Direction;
+import com.m2dl.cracotte.babal.game.domain.Direction;
+import com.m2dl.cracotte.babal.scores.ScoresActivity;
 
 import static com.m2dl.cracotte.babal.R.*;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback{
-    private final GameThread thread;
-    private MediaPlayer mediaPlayer;
+public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    private static final float INITIAL_BALL_RADIUS = 30;
+    private static final float INITIAL_BALL_SPEED = 2;
+    private static final float INITIAL_BALL_ACCELERATION = (float) 1.003;
+    private static final int MENU_LINES_WIDTH = 5;
+    private static final int MENU_HEIGHT = 200;
+    private static final int DEFAULT_TEXT_SIZE = 50;
+    private static final String TEXT_MENU_SCORE = "Score";
+    private static final String TEXT_MENU_CLICK_VALUE = "Valeur d'un clic";
 
-    private final float INITIAL_BALL_RADIUS = 30;
-    private final float INITIAL_BALL_SPEED = 2;
-    private final float INITIAL_BALL_ACCELERATION = (float) 1.003;
-    private final int MENU_LINES_WIDTH = 5;
-    private final int MENU_HEIGHT = 200;
-    private final int DEFAULT_TEXT_SIZE = 50;
-    private final String TEXTE_MENU_SCORE = "Score";
-    private final String TEXTE_MENU_VALEUR_CLIC = "Valeur d'un clic";
+    private GameThread thread;
+    private MediaPlayer mediaPlayer;
 
     private float screenHeight;
     private float screenWidth;
-    private float ball_pos_x;
-    private float ball_pos_y;
+    private float ballPositionInX;
+    private float ballPositionInY;
     private float ballSpeed;
     private float ballRadius;
     private float ballAcceleration;
@@ -45,22 +44,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private int score;
     private int currentPoints;
 
-    /**
-     * Constructeur
-     */
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
         setFocusable(true);
-        this.thread = new GameThread(getHolder(), this);
+        initThread();
         initMediaPlayer();
         initGame();
     }
 
-    /**
-     * Initialisations du jeu
-     */
-    private void initGame(){
+    private void initThread() {
+        thread = new GameThread(getHolder(), this);
+    }
+
+    private void initGame() {
         initGameArea();
         initBall();
         initScore();
@@ -69,31 +66,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         startMusic();
     }
 
-    private void initGameArea(){
-        screenWidth = this.getResources().getDisplayMetrics().widthPixels;
-        screenHeight = this.getResources().getDisplayMetrics().heightPixels;
+    private void initGameArea() {
+        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        screenHeight = getResources().getDisplayMetrics().heightPixels;
     }
 
-    private void initBall(){
-        this.ball_pos_x = getMiddleX();
-        this.ball_pos_y = getMiddleY();
-        this.ballDirection = Direction.NORTH;
-        this.ballRadius = INITIAL_BALL_RADIUS;
-        this.ballAcceleration = INITIAL_BALL_ACCELERATION;
+    private void initBall() {
+        ballPositionInX = getMiddleX();
+        ballPositionInY = getMiddleY();
+        ballDirection = Direction.NORTH;
+        ballRadius = INITIAL_BALL_RADIUS;
+        ballAcceleration = INITIAL_BALL_ACCELERATION;
         resetSpeed();
     }
 
-    private void initScore(){
-        this.score = 0;
-        this.currentPoints = 1;
+    private void initScore() {
+        score = 0;
+        currentPoints = 1;
     }
 
     public int getPixelWidth() {
-        return this.getResources().getDisplayMetrics().widthPixels;
+        return getResources().getDisplayMetrics().widthPixels;
     }
 
     public int getPixelHeight() {
-        return this.getResources().getDisplayMetrics().heightPixels;
+        return getResources().getDisplayMetrics().heightPixels;
     }
 
     public int getMiddleX() {
@@ -104,9 +101,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         return (getPixelHeight() + MENU_HEIGHT) / 2;
     }
 
-    /**
-     * Couleurs
-     */
     private void processColors() {
         processBackgroundColor();
         processBallColor();
@@ -114,26 +108,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     private void processBackgroundColor() {
-        this.backgroundColor = Color.WHITE;
+        backgroundColor = Color.WHITE;
     }
 
     private void processBallColor() {
-        float positionXPercentage = (ball_pos_x < getPixelWidth() && ball_pos_x > 0) ? ball_pos_x / getPixelWidth() * 100f : 0f;
-        float positionYPercentage = (ball_pos_y < getPixelHeight() && ball_pos_y > 0) ? ball_pos_y / getPixelHeight() * 100f : 0f;
+        float positionXPercentage = (ballPositionInX < getPixelWidth() && ballPositionInX > 0) ? ballPositionInX / getPixelWidth() * 100f : 0f;
+        float positionYPercentage = (ballPositionInY < getPixelHeight() && ballPositionInY > 0) ? ballPositionInY / getPixelHeight() * 100f : 0f;
         int red = Math.round(positionXPercentage * (255f/100f));
         int green = 0;
         int blue = Math.round(positionYPercentage * (255f/100f));
-        this.ballColor = Color.rgb(red, green, blue);
+        ballColor = Color.rgb(red, green, blue);
     }
 
     private void processDefaultColor(){
-        this.defaultColor = Color.BLACK;
+        defaultColor = Color.BLACK;
     }
-    /**
-     * Interface
-     */
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
     }
 
     @Override
@@ -161,169 +154,172 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (canvas != null) {
-            canvas.drawColor(this.backgroundColor);
+            canvas.drawColor(backgroundColor);
             drawBall(canvas);
             drawScoreMenu(canvas);
             drawMenu(canvas);
         }
     }
 
-    public void drawBall(Canvas canvas){
+    public void drawBall(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(this.ballColor);
-        canvas.drawCircle(ball_pos_x, ball_pos_y, this.ballRadius, paint);
+        paint.setColor(ballColor);
+        canvas.drawCircle(ballPositionInX, ballPositionInY, ballRadius, paint);
     }
 
-    public void drawScoreMenu(Canvas canvas){
+    public void drawScoreMenu(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(this.defaultColor);
-        for (int i = 0; i<= MENU_LINES_WIDTH; i++){
-            canvas.drawLine(0, MENU_HEIGHT + i, this.screenWidth, MENU_HEIGHT + i, paint);
+        paint.setColor(defaultColor);
+        for (int i = 0; i<= MENU_LINES_WIDTH; i++) {
+            canvas.drawLine(0, MENU_HEIGHT + i, screenWidth, MENU_HEIGHT + i, paint);
         }
     }
 
     public void drawMenu(Canvas canvas){
         Paint paint = new Paint();
-        paint.setColor(this.defaultColor);
+        paint.setColor(defaultColor);
         paint.setTextSize(DEFAULT_TEXT_SIZE);
         int leftMarge = 100;
         int topMarge = (MENU_HEIGHT /3)*2;
-        canvas.drawText(TEXTE_MENU_VALEUR_CLIC + " : " + this.currentPoints, leftMarge, topMarge, paint);
-        canvas.drawText(TEXTE_MENU_SCORE +" : " + this.score, this.screenWidth - (4*leftMarge), topMarge, paint);
+        canvas.drawText(TEXT_MENU_CLICK_VALUE + " : " + currentPoints, leftMarge, topMarge, paint);
+        canvas.drawText(TEXT_MENU_SCORE + " : " + score, screenWidth - (4*leftMarge), topMarge, paint);
     }
 
-    /**
-     * Update
-     */
     public void update(){
         updateBallPosition();
         updateBallSpeed();
         updateCurrentPoints();
         processColors();
-        assertBallInArea();
+        if (isBallOut()) {
+            endTheGame();
+        }
     }
 
-    private void updateBallPosition(){
+    private void updateBallPosition() {
         float x_movement = 0;
         float y_movement = 0;
-        switch (this.ballDirection){
+        switch (ballDirection) {
             case NORTH:
-                y_movement = -this.ballSpeed;
+                y_movement = -ballSpeed;
                 break;
             case NORTH_EAST:
-                x_movement = this.ballSpeed;
-                y_movement = -this.ballSpeed;
+                x_movement = ballSpeed;
+                y_movement = -ballSpeed;
                 break;
             case EAST:
-                x_movement = this.ballSpeed;
+                x_movement = ballSpeed;
                 break;
             case SOUTH_EAST:
-                x_movement = this.ballSpeed;
-                y_movement = this.ballSpeed;
+                x_movement = ballSpeed;
+                y_movement = ballSpeed;
                 break;
             case SOUTH:
-                y_movement = this.ballSpeed;
+                y_movement = ballSpeed;
                 break;
             case SOUTH_WEST:
-                x_movement = -this.ballSpeed;
-                y_movement = this.ballSpeed;
+                x_movement = -ballSpeed;
+                y_movement = ballSpeed;
                 break;
             case WEST:
-                x_movement = -this.ballSpeed;
+                x_movement = -ballSpeed;
                 break;
             case NORTH_WEST:
-                x_movement = -this.ballSpeed;
-                y_movement = -this.ballSpeed;
+                x_movement = -ballSpeed;
+                y_movement = -ballSpeed;
                 break;
         }
-        this.ball_pos_x += x_movement;
-        this.ball_pos_y += y_movement;
+        ballPositionInX += x_movement;
+        ballPositionInY += y_movement;
     }
 
-    public void resetSpeed(){
-        this.ballSpeed = INITIAL_BALL_SPEED;
-        this.ballAcceleration += 0.001;
+    public void resetSpeed() {
+        ballSpeed = INITIAL_BALL_SPEED;
+        ballAcceleration += 0.001;
     }
   
     private void updateBallSpeed(){
-        this.ballSpeed *= this.ballAcceleration;
+        ballSpeed *= ballAcceleration;
     }
 
-    public void touchedScreenEvent(){
+    public void touchedScreenEvent() {
         changeBallDirection();
         updateScore();
     }
 
-    public void changeBallDirection(){
-        Direction nouvelleDirection = this.ballDirection;
-        while (nouvelleDirection == this.ballDirection){
+    public void changeBallDirection() {
+        Direction nouvelleDirection = ballDirection;
+        while (nouvelleDirection == ballDirection) {
             nouvelleDirection = Direction.getRandom();
         }
-        this.ballDirection = nouvelleDirection;
+        ballDirection = nouvelleDirection;
     }
 
     public void updateScore(){
-        this.score += this.currentPoints;
+        score += currentPoints;
     }
 
     public void updateCurrentPoints(){
-        this.currentPoints = (int) Math.ceil(this.ballSpeed / 5);
+        currentPoints = (int) Math.ceil(ballSpeed / 5);
     }
 
-    private void assertBallInArea(){
-        if (this.ball_pos_x < 0 + this.ballRadius || this.ball_pos_y < MENU_HEIGHT + MENU_LINES_WIDTH + this.ballRadius || this.ball_pos_x > screenWidth - ballRadius || this.ball_pos_y > screenHeight - ballRadius){
-            stopGame();
-        }
+    private boolean isBallOut() {
+        return !(isBallAtTop() || isBallAtBottom() || isBallAtLeft() || isBallAtRight());
     }
 
-    /**
-     * Fin du jeu
-     */
-    private void stopGame(){
+    private boolean isBallAtTop() {
+        return ballPositionInY > screenHeight - ballRadius;
+    }
+
+    private boolean isBallAtBottom() {
+        return ballPositionInY < MENU_HEIGHT + MENU_LINES_WIDTH + ballRadius;
+    }
+
+    private boolean isBallAtLeft() {
+        return ballPositionInX < 0 + ballRadius;
+    }
+
+    private boolean isBallAtRight() {
+        return ballPositionInX > screenWidth - ballRadius;
+    }
+
+    private void endTheGame() {
         thread.setRunning(false);
         stopMusic();
         launchScoresActivity();
     }
 
-    public void launchScoresActivity(){
+    public void launchScoresActivity() {
         Context context = getContext();
         Activity gameActivity = (Activity) context;
         Intent scoresIntent = new Intent().setClass(context, ScoresActivity.class);
-        scoresIntent.putExtra("scorePerformed", this.score);
+        scoresIntent.putExtra("scorePerformed", score);
         scoresIntent.putExtra("hasNewScore", true);
         context.startActivity(scoresIntent);
         gameActivity.finish();
     }
 
-    /**
-     * Musique
-     */
-
-    public void initMediaPlayer(){
-        mediaPlayer = MediaPlayer.create(this.getContext(), raw.music_game_1);
+    public void initMediaPlayer() {
+        mediaPlayer = MediaPlayer.create(getContext(), raw.music_game_1);
     }
 
-    public void startMusic(){
-        if (mediaPlayer != null && Boolean.FALSE.equals(mediaPlayer.isPlaying())){
+    public void startMusic() {
+        if (mediaPlayer != null && Boolean.FALSE.equals(mediaPlayer.isPlaying())) {
             mediaPlayer.start();
             mediaPlayer.setLooping(true);
         }
     }
 
-    public void pauseMusic(){
+    public void pauseMusic() {
         if (mediaPlayer != null && Boolean.TRUE.equals(mediaPlayer.isPlaying())) {
             mediaPlayer.pause();
             mediaPlayer.release();
         }
     }
 
-    public void stopMusic(){
+    public void stopMusic() {
         if (mediaPlayer != null && Boolean.TRUE.equals(mediaPlayer.isPlaying())) {
             mediaPlayer.stop();
             mediaPlayer.reset();
         }
     }
-
-
-
 }
