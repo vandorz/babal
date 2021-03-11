@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">Babal</string>
+
     <string name="menu_textView_titreJeu">BABAL</string>
     <string name="menu_button_lancerJeu">Jouer</string>
+    <string name="menu_button_scores">Scores</string>
     <string name="menu_button_quitterJeu">Quitter</string>
     <string name="menu_textView_copyright">Copyright : Aymeric Pinel, Clément Guichard, Romain Goyheneix (support Alessandra Franzese)</string>
+
+    <string name="game_textView_scoreActuel">Score</string>
+    <string name="game_textView_valeurClic">Valeur d\'un clic</string>
+
+    <string name="scores_button_rejouer">Rejouer</string>
+    <string name="scores_button_publier">Publier</string>
+    <string name="scores_button_menu">Menu</string>
+    <string name="scores_textView_scoreEffectue">Votre score : </string>
 </resources>

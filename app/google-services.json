@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "610469945837",
+    "project_id": "babal-10a43",
+    "storage_bucket": "babal-10a43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610469945837:android:072d054825bcc2ad3c87e4",
+        "android_client_info": {
+          "package_name": "com.m2dl.cracotte.babal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610469945837-c2vejl93cctgas7ql800v1hese0k96hf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASaXKX-X8MyvgV-VTO3lJ9DgN0ozN8fvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610469945837-c2vejl93cctgas7ql800v1hese0k96hf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
