@@ -1,16 +1,16 @@
-package com.m2dl.cracotte.babal.entities;
+package com.m2dl.cracotte.babal.scores.domain;
 
-public class Score implements Comparable{
+public class Score implements Comparable {
     private String playerName;
     private Long score;
 
-    public Score(){
-
-    }
-
-    public Score(String playerName, Long score){
+    public Score(String playerName, Long score) {
         this.playerName = playerName;
         this.score = score;
+    }
+
+    public Score() {
+
     }
 
     public String getPlayerName() {
@@ -31,14 +31,14 @@ public class Score implements Comparable{
 
     @Override
     public int compareTo(Object object) {
-        if (object instanceof Score){
+        if (object instanceof Score) {
             Score scoreObject = (Score) object;
-            if (this.score.equals(scoreObject.getScore())){
-                return scoreObject.playerName.compareTo(this.playerName);
-            }else{
-                return scoreObject.getScore().compareTo(this.score);
+            if (score.equals(scoreObject.getScore())) {
+                return scoreObject.playerName.compareTo(playerName);
+            } else {
+                return scoreObject.getScore().compareTo(score);
             }
-        }else{
+        } else {
             return -1;
         }
     }

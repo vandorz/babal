@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.views;
+package com.m2dl.cracotte.babal.scores;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.m2dl.cracotte.babal.R;
 
-public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> {
-    private String[] localDataSetNomJoueur;
-    private String[] localDataSetScoreJoueur;
+public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ViewHolder> {
+    private final String[] localDataSetNomJoueur;
+    private final String[] localDataSetScoreJoueur;
 
-    public ScoreAdapter(String[] dataSetNomJoueur, String[] dataSetScoreJoueur){
+    public ScoresAdapter(String[] dataSetNomJoueur, String[] dataSetScoreJoueur) {
         this.localDataSetNomJoueur = dataSetNomJoueur;
         this.localDataSetScoreJoueur = dataSetScoreJoueur;
     }
@@ -37,18 +37,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
         return localDataSetNomJoueur.length;
     }
 
-
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewNomJoueur;
         private final TextView textViewScoreJoueur;
 
         public ViewHolder(View view) {
             super(view);
-
             textViewNomJoueur = view.findViewById(R.id.scoreLine_textView_nomJoueur);
             textViewScoreJoueur = view.findViewById(R.id.scoreLine_textView_scoreJoueur);
-
         }
 
         public TextView getTextViewNomJoueur(){
