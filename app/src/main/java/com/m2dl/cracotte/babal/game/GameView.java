@@ -263,14 +263,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private boolean isBallOut() {
-        return !(isBallAtTop() || isBallAtBottom() || isBallAtLeft() || isBallAtRight());
-    }
-
-    private boolean isBallAtTop() {
-        return ballPositionInY > screenHeight - ballRadius;
+        return isBallAtTop() || isBallAtBottom() || isBallAtLeft() || isBallAtRight();
     }
 
     private boolean isBallAtBottom() {
+        return ballPositionInY > screenHeight - ballRadius;
+    }
+
+    private boolean isBallAtTop() {
         return ballPositionInY < MENU_HEIGHT + MENU_LINES_WIDTH + ballRadius;
     }
 
