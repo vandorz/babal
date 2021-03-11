@@ -8,22 +8,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.game.GameActivity;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
+import com.m2dl.cracotte.babal.scores.service.ScoresService;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -31,7 +25,6 @@ public class ScoresActivity extends Activity {
     private static final int NB_SCORES_DISPLAYED = 10;
     private static final String TEXT_SCORE_DISPLAY = "Votre score";
 
-    private DatabaseReference database;
     private ScoresTable scoresTable;
     String[] playerNamesList = new String[NB_SCORES_DISPLAYED];
     String[] playerScoresList = new String[NB_SCORES_DISPLAYED];
@@ -42,8 +35,9 @@ public class ScoresActivity extends Activity {
     private TextView currentPersonnalScoreTextView;
     private RecyclerView recyclerView;
 
-    private int score;
+    private long score;
     private boolean hasNewScore;
+    private ScoresService scoresService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,33 +49,11 @@ public class ScoresActivity extends Activity {
     }
 
     private void initDatabase() {
-        database = FirebaseDatabase.getInstance("https://babal-10a43-default-rtdb.firebaseio.com").getReference();
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot scoreTableDataSnapshot = dataSnapshot.child("tableauScores");
-
-                ScoresTable newScoresTable = new ScoresTable();
-                newScoresTable.setNbScores(scoreTableDataSnapshot.child("nbScores").getValue(Long.class));
-                Map<String, Score> scoresMap = new HashMap<>();
-                for (DataSnapshot currentChild : scoreTableDataSnapshot.child("scores").getChildren()) {
-                    String key = currentChild.getKey();
-                    Score currentScore = currentChild.getValue(Score.class);
-                    scoresMap.put(key, currentScore);
-                }
-                newScoresTable.setScores(scoresMap);
-                scoresTable = newScoresTable;
-                updateDynamicData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        scoresService = new ScoresService(this);
     }
 
-    private void updateDynamicData() {
+    public void updateDynamicData(ScoresTable newScoresTable) {
+        scoresTable = newScoresTable;
         initScoresDisplay();
         initRecyclerView();
     }
@@ -93,7 +65,7 @@ public class ScoresActivity extends Activity {
     }
 
     private void initScore(){
-        score = getIntent().getIntExtra("scorePerformed", 0);
+        score = getIntent().getLongExtra("scorePerformed", 0);
     }
 
     private void initHasNewScore() {
@@ -106,13 +78,12 @@ public class ScoresActivity extends Activity {
             for (Map.Entry<String, Score> entry : scoresTable.getScores().entrySet()) {
                 treeSetScores.add(entry.getValue());
             }
-            for (int i = 1; i<= NB_SCORES_DISPLAYED; i++) {
-                if (i >= scoresTable.getNbScores()) {
-                    break;
-                }
+            int i = 1;
+            while (i<=NB_SCORES_DISPLAYED && i < scoresTable.getNbScores()){
                 Score currentScore = treeSetScores.pollFirst();
                 playerNamesList[i-1] = currentScore.getPlayerName();
                 playerScoresList[i-1] = currentScore.getScore().toString();
+                i++;
             }
         }
     }
@@ -129,11 +100,8 @@ public class ScoresActivity extends Activity {
         publishScoreButton  = findViewById(R.id.score_button_publier);
         publishScoreButton.setOnClickListener(listener -> {
             if (hasNewScore && scoresTable != null) {
-                scoresTable.setNbScores(scoresTable.getNbScores()+1);
-                String playerName = "null";
-                scoresTable.putScore((scoresTable.getNbScores()) + "", new Score(playerName, (long) score));
-                database.child("tableauScores").setValue(scoresTable);
                 hasNewScore = false;
+                scoresService.publishNewScore("Joueur", score);
             } else {
                 // TODO ...
             }
