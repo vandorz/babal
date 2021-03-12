@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.m2dl.cracotte.babal.game.domain.Ball;
 import com.m2dl.cracotte.babal.game.domain.Direction;
+import com.m2dl.cracotte.babal.game.domain.Music;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
 
 import static com.m2dl.cracotte.babal.R.*;
@@ -27,8 +27,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TEXT_MENU_CLICK_VALUE = "Valeur d'un clic";
 
     private GameThread thread;
-    private MediaPlayer mediaPlayer;
     private Ball ball;
+    private Music music;
 
     private float screenHeight;
     private float screenWidth;
@@ -55,7 +55,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         initGameArea();
         initBall();
         initScore();
-        initMediaPlayer();
+        initMusic();
         startThread();
         startMusic();
     }
@@ -80,12 +80,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         currentPoints = 1;
     }
 
-    public void initMediaPlayer() {
-        mediaPlayer = MediaPlayer.create(getContext(), raw.music_game_1);
+    public void initMusic() {
+        music = new Music(getContext(), raw.music_game_1);
     }
 
     public void startThread() {
         thread.setRunning(true);
+    }
+
+    public void startMusic() {
+        music.start();
     }
 
     @Override
@@ -178,6 +182,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         navigateToScoresActivity();
     }
 
+    public void stopMusic() {
+        music.stop();
+    }
+
     public void navigateToScoresActivity() {
         Context context = getContext();
         Activity gameActivity = (Activity) context;
@@ -206,25 +214,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.accelerate(0.001f);
     }
 
-    public void startMusic() {
-        if (mediaPlayer != null && Boolean.FALSE.equals(mediaPlayer.isPlaying())) {
-            mediaPlayer.start();
-            mediaPlayer.setLooping(true);
-        }
-    }
-
     public void pauseMusic() {
-        if (mediaPlayer != null && Boolean.TRUE.equals(mediaPlayer.isPlaying())) {
-            mediaPlayer.pause();
-            mediaPlayer.release();
-        }
-    }
-
-    public void stopMusic() {
-        if (mediaPlayer != null && Boolean.TRUE.equals(mediaPlayer.isPlaying())) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-        }
+        music.pause();
     }
 
     @Override
