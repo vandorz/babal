@@ -17,14 +17,18 @@ import com.m2dl.cracotte.babal.scores.ScoresActivity;
 import static com.m2dl.cracotte.babal.R.*;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    public static final int MENU_LINES_WIDTH = 5;
+    public static final int MENU_HEIGHT = 200;
     private static final float INITIAL_BALL_RADIUS = 30;
     private static final float INITIAL_BALL_SPEED = 2;
     private static final float INITIAL_BALL_ACCELERATION = (float) 1.003;
-    public static final int MENU_LINES_WIDTH = 5;
-    public static final int MENU_HEIGHT = 200;
+    private static final int INITIAL_BALL_OPACITY = 255;
     private static final int DEFAULT_TEXT_SIZE = 50;
     private static final String TEXT_MENU_SCORE = "Score";
     private static final String TEXT_MENU_CLICK_VALUE = "Valeur d'un clic";
+    private static final float LIGHT_LOWER_THRESHOLD = 1;
+    private static final float BALL_OPACITY_DECREASE = (float) 0.5;
+    private static final float BALL_OPACITY_INCREASE = (float) 1;
 
     private GameThread thread;
     private Ball ball;
@@ -38,6 +42,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private long score;
     private int currentPoints;
+
+    private float lightMeasurement;
 
     public GameView(Context context) {
         super(context);
@@ -72,6 +78,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.setDirection(Direction.NORTH);
         ball.setSpeed(INITIAL_BALL_SPEED);
         ball.setRadius(INITIAL_BALL_RADIUS);
+        ball.setOpacity(INITIAL_BALL_OPACITY);
         ball.setAcceleration(INITIAL_BALL_ACCELERATION);
     }
 
@@ -119,7 +126,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public void drawMenu(Canvas canvas){
+    public void drawMenu(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(menuColor);
         paint.setTextSize(DEFAULT_TEXT_SIZE);
@@ -129,7 +136,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawText(TEXT_MENU_SCORE + " : " + score, screenWidth - (4*leftMarge), topMarge, paint);
     }
 
-    public void update(){
+    public void update() {
         updateBallPosition();
         updateBallSpeed();
         updateCurrentPoints();
@@ -143,11 +150,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.move();
     }
 
-    private void updateBallSpeed(){
+    private void updateBallSpeed() {
         ball.speedUp();
     }
 
-    public void updateCurrentPoints(){
+    public void updateCurrentPoints() {
         currentPoints = (int) Math.ceil(ball.getSpeed() / 5);
     }
 
@@ -170,6 +177,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int green = 0;
         int blue = Math.round(positionYPercentage * (255f/100f));
         ball.setColor(Color.rgb(red, green, blue));
+        if (lightMeasurement > LIGHT_LOWER_THRESHOLD && ball.getOpacity() > 0) {
+            ball.setOpacity((int)(ball.getOpacity() - BALL_OPACITY_DECREASE));
+        } else if (ball.getOpacity() < 255) {
+            ball.setOpacity((int)(ball.getOpacity() + BALL_OPACITY_INCREASE));
+        }
     }
 
     private void updateMenuColor(){
@@ -205,7 +217,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.changeDirection();
     }
 
-    public void incrementScore(){
+    public void incrementScore() {
         score += currentPoints;
     }
 
@@ -241,6 +253,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
+    }
+
+    public void updateLightMeasurement(float lightMeasurement) {
+        this.lightMeasurement = lightMeasurement;
     }
 
     public float getScreenHeight() {

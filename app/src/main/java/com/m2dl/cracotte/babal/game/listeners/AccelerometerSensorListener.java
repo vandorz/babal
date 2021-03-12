@@ -8,7 +8,7 @@ import com.m2dl.cracotte.babal.game.GameView;
 
 import java.util.Date;
 
-public class AccelerometerListener implements SensorEventListener {
+public class AccelerometerSensorListener implements SensorEventListener {
     private static final int ACCELERATION_THRESHOLD = 20;
     private static final long TIME_BETWEEN_RESETS = 3000;
 
@@ -16,7 +16,7 @@ public class AccelerometerListener implements SensorEventListener {
 
     private Date lastReset;
 
-    public AccelerometerListener(GameView gameView) {
+    public AccelerometerSensorListener(GameView gameView) {
         this.gameView = gameView;
     }
 

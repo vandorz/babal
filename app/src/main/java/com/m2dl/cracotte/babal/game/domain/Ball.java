@@ -14,6 +14,7 @@ public class Ball {
     private float speed;
     private float radius;
     private float acceleration;
+    private int opacity;
     private int color;
 
     public Ball() {
@@ -29,6 +30,7 @@ public class Ball {
     public void drawInside(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(color);
+        paint.setAlpha(opacity);
         canvas.drawCircle(positionInX, positionInY, radius, paint);
     }
 
@@ -159,6 +161,14 @@ public class Ball {
 
     public void setAcceleration(float acceleration) {
         this.acceleration = acceleration;
+    }
+
+    public int getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity(int opacity) {
+        this.opacity = opacity;
     }
 
     public int getColor() {
