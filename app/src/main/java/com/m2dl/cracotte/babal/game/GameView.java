@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -19,6 +20,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private static final float INITIAL_BALL_RADIUS = 30;
     private static final float INITIAL_BALL_SPEED = 2;
     private static final float INITIAL_BALL_ACCELERATION = (float) 1.003;
+    private static final int INITIAL_BALL_OPACITY = 255;
     private static final int MENU_LINES_WIDTH = 5;
     private static final int MENU_HEIGHT = 200;
     private static final int DEFAULT_TEXT_SIZE = 50;
@@ -83,6 +85,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ballDirection = Direction.NORTH;
         ballRadius = INITIAL_BALL_RADIUS;
         ballAcceleration = INITIAL_BALL_ACCELERATION;
+        ballOpacity = INITIAL_BALL_OPACITY;
         resetSpeed();
     }
 
@@ -125,9 +128,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int blue = Math.round(positionYPercentage * (255f/100f));
         ballColor = Color.rgb(red, green, blue);
         if(lightMeasurement > LIGHT_LOWER_THRESHOLD && ballOpacity > 0) {
-            ballOpacity = (int)(ballOpacity - BALL_OPACITY_DECREASE) % 255;
+            ballOpacity = (int)(ballOpacity - BALL_OPACITY_DECREASE);
         } else if(ballOpacity < 255) {
-            ballOpacity = (int)(ballOpacity + BALL_OPACITY_INCREASE) % 255;
+            ballOpacity = (int)(ballOpacity + BALL_OPACITY_INCREASE);
         }
     }
 
