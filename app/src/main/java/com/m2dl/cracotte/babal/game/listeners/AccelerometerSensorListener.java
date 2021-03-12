@@ -43,7 +43,7 @@ public class AccelerometerSensorListener implements SensorEventListener {
                 ) {
                     if (lastReset == null || new Date().getTime() - lastReset.getTime() > TIME_BETWEEN_RESETS) {
                         lastReset = new Date();
-                        gameView.resetSpeed();
+                        gameView.resetSpeedAndAccelerate();
                     }
                 }
             }
