@@ -14,4 +14,6 @@
     <string name="scores_button_publier">Publier</string>
     <string name="scores_button_menu">Menu</string>
     <string name="scores_textView_scoreEffectue">Votre score : </string>
+    <string name="scores_table_titreScoresLocaux">Local</string>
+    <string name="scores_table_titreScoresGlobaux">Global</string>
 </resources>

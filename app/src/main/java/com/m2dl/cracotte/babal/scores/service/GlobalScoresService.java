@@ -16,12 +16,12 @@ import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScoresService {
+public class GlobalScoresService {
     private DatabaseReference database;
     private ScoresTable scoresTable;
     private ScoresActivity scoresActivity;
 
-    public ScoresService(ScoresActivity scoresActivity){
+    public GlobalScoresService(ScoresActivity scoresActivity){
         this.scoresActivity = scoresActivity;
         initDatabase();
     }
@@ -43,7 +43,7 @@ public class ScoresService {
                 }
                 newScoresTable.setScores(scoresMap);
                 scoresTable = newScoresTable;
-                scoresActivity.updateDynamicData(scoresTable);
+                scoresActivity.receiveNewDataFromDatabase(scoresTable);
             }
 
             @Override

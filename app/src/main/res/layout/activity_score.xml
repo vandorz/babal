@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/score_button_rejouer"
         android:layout_width="150dp"
@@ -41,7 +42,7 @@
         android:id="@+id/score_textView_scoreRealise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,12 +50,33 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/score_recyclerView_affichageScores"
-        android:layout_width="220dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_textView_scoreRealise" />
+        app:layout_constraintTop_toBottomOf="@+id/score_tabLayout_scoresTabLayout" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/score_tabLayout_scoresTabLayout"
+        android:layout_width="277dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score_textView_scoreRealise">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/score_tabItem_localTabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scores_table_titreScoresLocaux" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/score_tabItem_globalTabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scores_table_titreScoresGlobaux" />
+
+    </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

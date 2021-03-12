@@ -28,6 +28,8 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String positionString = "" + (position + 1);
+        holder.getTextViewPosition().setText(positionString);
         holder.getTextViewNomJoueur().setText(localDataSetNomJoueur[position]);
         holder.getTextViewScoreJoueur().setText(localDataSetScoreJoueur[position]);
     }
@@ -38,14 +40,18 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewPosition;
         private final TextView textViewNomJoueur;
         private final TextView textViewScoreJoueur;
 
         public ViewHolder(View view) {
             super(view);
+            textViewPosition = view.findViewById(R.id.scoreLine_textView_position);
             textViewNomJoueur = view.findViewById(R.id.scoreLine_textView_nomJoueur);
             textViewScoreJoueur = view.findViewById(R.id.scoreLine_textView_scoreJoueur);
         }
+
+        public TextView getTextViewPosition() { return this.textViewPosition; }
 
         public TextView getTextViewNomJoueur(){
             return this.textViewNomJoueur;
