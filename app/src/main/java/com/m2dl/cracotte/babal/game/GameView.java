@@ -24,6 +24,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private static final int DEFAULT_TEXT_SIZE = 50;
     private static final String TEXT_MENU_SCORE = "Score";
     private static final String TEXT_MENU_CLICK_VALUE = "Valeur d'un clic";
+    private static final float LIGHT_LOWER_THRESHOLD = 1;
+    private static final float BALL_OPACITY_DECREASE = (float) 0.5;
+    private static final float BALL_OPACITY_INCREASE = (float) 1;
 
     private GameThread thread;
     private MediaPlayer mediaPlayer;
@@ -35,6 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private float ballSpeed;
     private float ballRadius;
     private float ballAcceleration;
+    private int ballOpacity;
     private Direction ballDirection;
 
     private int backgroundColor;
@@ -43,6 +47,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private int score;
     private int currentPoints;
+
+    private float lightMeasurement;
 
     public GameView(Context context) {
         super(context);
@@ -118,6 +124,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int green = 0;
         int blue = Math.round(positionYPercentage * (255f/100f));
         ballColor = Color.rgb(red, green, blue);
+        if(lightMeasurement > LIGHT_LOWER_THRESHOLD && ballOpacity > 0) {
+            ballOpacity = (int)(ballOpacity - BALL_OPACITY_DECREASE) % 255;
+        } else if(ballOpacity < 255) {
+            ballOpacity = (int)(ballOpacity + BALL_OPACITY_INCREASE) % 255;
+        }
     }
 
     private void processDefaultColor(){
@@ -164,6 +175,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void drawBall(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(ballColor);
+        paint.setAlpha(ballOpacity);
         canvas.drawCircle(ballPositionInX, ballPositionInY, ballRadius, paint);
     }
 
@@ -321,5 +333,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             mediaPlayer.stop();
             mediaPlayer.reset();
         }
+    }
+
+    public void updateLightMeasurement(float lightMeasurement) {
+        this.lightMeasurement = lightMeasurement;
     }
 }

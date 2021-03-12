@@ -23,16 +23,14 @@ public class LightSensorListener implements SensorEventListener {
         synchronized (this) {
             if (sensor == Sensor.TYPE_LIGHT) {
                 float lightMeasurement = values[0];
-                playWithBallColor(lightMeasurement);
+                updateGameViewLightMeasurement(lightMeasurement);
                 Log.d("Light Sensor", "Measured : " + lightMeasurement + "lx");
             }
         }
     }
 
-    public void playWithBallColor(float lightMeasurement) {
-        if(lightMeasurement == 0) {
-            //gameView.resetBallOpacity();
-        }
+    public void updateGameViewLightMeasurement(float lightMeasurement) {
+        gameView.updateLightMeasurement(lightMeasurement);
     }
 
     @Override
