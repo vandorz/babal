@@ -24,7 +24,6 @@ public class LightSensorListener implements SensorEventListener {
             if (sensor == Sensor.TYPE_LIGHT) {
                 float lightMeasurement = values[0];
                 updateGameViewLightMeasurement(lightMeasurement);
-                Log.d("Light Sensor", "Measured : " + lightMeasurement + "lx");
             }
         }
     }

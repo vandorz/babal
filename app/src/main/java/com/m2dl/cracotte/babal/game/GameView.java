@@ -127,9 +127,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int green = 0;
         int blue = Math.round(positionYPercentage * (255f/100f));
         ballColor = Color.rgb(red, green, blue);
-        if(lightMeasurement > LIGHT_LOWER_THRESHOLD && ballOpacity > 0) {
+        if (lightMeasurement > LIGHT_LOWER_THRESHOLD && ballOpacity > 0) {
             ballOpacity = (int)(ballOpacity - BALL_OPACITY_DECREASE);
-        } else if(ballOpacity < 255) {
+        } else if (ballOpacity < 255) {
             ballOpacity = (int)(ballOpacity + BALL_OPACITY_INCREASE);
         }
     }
