@@ -1,7 +1,5 @@
 package com.m2dl.cracotte.babal.scores.service;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;

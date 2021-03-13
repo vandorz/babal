@@ -82,8 +82,8 @@
 
         <Button
             android:id="@+id/score_button_menu"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="10dp"
             android:text="@string/scores_button_menu"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,8 +93,8 @@
 
         <Button
             android:id="@+id/score_button_rejouer"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="15dp"
             android:text="@string/scores_button_rejouer"
             app:layout_constraintBottom_toTopOf="@+id/score_button_menu"
@@ -103,8 +103,8 @@
 
         <Button
             android:id="@+id/score_button_publier"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="15dp"
             android:text="@string/scores_button_publier"
             app:layout_constraintBottom_toTopOf="@+id/score_button_rejouer"

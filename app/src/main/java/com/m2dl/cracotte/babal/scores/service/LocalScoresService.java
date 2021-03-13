@@ -2,14 +2,12 @@ package com.m2dl.cracotte.babal.scores.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
 
 import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class LocalScoresService {
     private final String SHAREDPREFERENCES_SCORES_TABLE = "scoresTable";

@@ -19,7 +19,6 @@ import static com.m2dl.cracotte.babal.R.*;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public static final int MENU_LINES_WIDTH = 5;
     public static final int MENU_HEIGHT = 200;
-    private static final float INITIAL_BALL_RADIUS = 30;
     private static final float INITIAL_BALL_SPEED = 2;
     private static final float INITIAL_BALL_ACCELERATION = (float) 1.003;
     private static final int INITIAL_BALL_OPACITY = 255;
@@ -77,7 +76,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.setPositionInY(getMiddleY());
         ball.setDirection(Direction.NORTH);
         ball.setSpeed(INITIAL_BALL_SPEED);
-        ball.setRadius(INITIAL_BALL_RADIUS);
+        ball.setRadius(screenWidth/30);
         ball.setOpacity(INITIAL_BALL_OPACITY);
         ball.setAcceleration(INITIAL_BALL_ACCELERATION);
     }
