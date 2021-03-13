@@ -5,25 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.material.tabs.TabLayout;
 import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.game.GameActivity;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
+import com.m2dl.cracotte.babal.scores.service.GlobalScoresService;
+import com.m2dl.cracotte.babal.scores.service.LocalScoresService;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -31,88 +28,101 @@ public class ScoresActivity extends Activity {
     private static final int NB_SCORES_DISPLAYED = 10;
     private static final String TEXT_SCORE_DISPLAY = "Votre score";
 
-    private DatabaseReference database;
-    private ScoresTable scoresTable;
+    private ScoresTable globalScoresTable;
+    private ScoresTable localScoresTable;
     String[] playerNamesList = new String[NB_SCORES_DISPLAYED];
     String[] playerScoresList = new String[NB_SCORES_DISPLAYED];
+
 
     private Button publishScoreButton;
     private Button playAgainButton;
     private Button menuButton;
     private TextView currentPersonnalScoreTextView;
     private RecyclerView recyclerView;
+    private TabLayout scoresTabLayout;
+    private EditText nameEditText;
+    private TextView nameTextView;
 
-    private int score;
+    private long score;
     private boolean hasNewScore;
+    private GlobalScoresService globalScoresService;
+    private LocalScoresService localScoresService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
-        initDatabase();
+        initDatabases();
         initData();
         initComponents();
+        updateScoresDisplay();
     }
 
-    private void initDatabase() {
-        database = FirebaseDatabase.getInstance("https://babal-10a43-default-rtdb.firebaseio.com").getReference();
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot scoreTableDataSnapshot = dataSnapshot.child("tableauScores");
-
-                ScoresTable newScoresTable = new ScoresTable();
-                newScoresTable.setNbScores(scoreTableDataSnapshot.child("nbScores").getValue(Long.class));
-                Map<String, Score> scoresMap = new HashMap<>();
-                for (DataSnapshot currentChild : scoreTableDataSnapshot.child("scores").getChildren()) {
-                    String key = currentChild.getKey();
-                    Score currentScore = currentChild.getValue(Score.class);
-                    scoresMap.put(key, currentScore);
-                }
-                newScoresTable.setScores(scoresMap);
-                scoresTable = newScoresTable;
-                updateDynamicData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    private void initDatabases() {
+        initGlobalDatabase();
+        initLocalDatabase();
     }
 
-    private void updateDynamicData() {
-        initScoresDisplay();
-        initRecyclerView();
+    private void initGlobalDatabase(){
+        globalScoresService = new GlobalScoresService(this);
+    }
+
+    private void initLocalDatabase(){
+        localScoresService = new LocalScoresService(getApplicationContext());
+    }
+
+    public void receiveNewDataFromDatabase(ScoresTable newScoresTable){
+        globalScoresTable = newScoresTable;
+        updateDynamicData();
+    }
+
+    public void updateDynamicData() {
+        updateLocalScores();
+        updateScoresDisplay();
+        updateRecyclerView();
     }
 
     private void initData() {
         initScore();
         initHasNewScore();
-        initScoresDisplay();
+        updateLocalScores();
     }
 
     private void initScore(){
-        score = getIntent().getIntExtra("scorePerformed", 0);
+        score = getIntent().getLongExtra("scorePerformed", 0);
+    }
+
+    private void updateLocalScores(){
+        localScoresTable = localScoresService.getRegisteredScores();
     }
 
     private void initHasNewScore() {
         hasNewScore = getIntent().getBooleanExtra("hasNewScore", false);
     }
 
-    private void initScoresDisplay() {
-        if (scoresTable != null) {
+    private void updateScoresDisplay() {
+        ScoresTable scoresToShow;
+        if (scoresTabLayout.getSelectedTabPosition() == 0){
+            scoresToShow = localScoresTable;
+        }else if (scoresTabLayout.getSelectedTabPosition() == 1){
+            scoresToShow = globalScoresTable;
+        }else{
+            return; //TODO erreur
+        }
+        if (scoresToShow != null  && scoresToShow.getScores() != null) {
             TreeSet<Score> treeSetScores = new TreeSet<>();
-            for (Map.Entry<String, Score> entry : scoresTable.getScores().entrySet()) {
+            for (Map.Entry<String, Score> entry : scoresToShow.getScores().entrySet()) {
                 treeSetScores.add(entry.getValue());
             }
-            for (int i = 1; i<= NB_SCORES_DISPLAYED; i++) {
-                if (i >= scoresTable.getNbScores()) {
-                    break;
+            for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
+                if (i >= scoresToShow.getNbScores()) {
+                    playerNamesList[i - 1] = "";
+                    playerScoresList[i - 1] = "";
+                } else {
+                    Score currentScore = treeSetScores.pollFirst();
+                    playerNamesList[i - 1] = currentScore.getPlayerName();
+                    playerScoresList[i - 1] = currentScore.getScore().toString();
                 }
-                Score currentScore = treeSetScores.pollFirst();
-                playerNamesList[i-1] = currentScore.getPlayerName();
-                playerScoresList[i-1] = currentScore.getScore().toString();
             }
         }
     }
@@ -121,19 +131,23 @@ public class ScoresActivity extends Activity {
         initPublishScoreButton();
         initPlayAgainButton();
         initMenuButton();
+        initNameEditText();
+        initNameTextView();
         initCurrentPersonnalScoreTextView();
-        initRecyclerView();
+        updateRecyclerView();
+        initTabLayout();
     }
 
     private void initPublishScoreButton() {
         publishScoreButton  = findViewById(R.id.score_button_publier);
         publishScoreButton.setOnClickListener(listener -> {
-            if (hasNewScore && scoresTable != null) {
-                scoresTable.setNbScores(scoresTable.getNbScores()+1);
-                String playerName = "null";
-                scoresTable.putScore((scoresTable.getNbScores()) + "", new Score(playerName, (long) score));
-                database.child("tableauScores").setValue(scoresTable);
+            String playerName = nameEditText.getText().toString();
+            if (hasNewScore && !playerName.isEmpty()) {
                 hasNewScore = false;
+                localScoresService.savePlayerName(playerName);
+                globalScoresService.publishNewScore(playerName, score);
+                localScoresService.publishNewScore(playerName, score);
+                updateDynamicData();
             } else {
                 // TODO ...
             }
@@ -164,6 +178,22 @@ public class ScoresActivity extends Activity {
         });
     }
 
+    private void initNameEditText(){
+        nameEditText = findViewById(R.id.score_plainText_yourName);
+        String playerName = localScoresService.getSavedPlayerName();
+        nameEditText.setText(playerName);
+        if (!hasNewScore) {
+            nameEditText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initNameTextView(){
+        nameTextView = findViewById(R.id.score_textView_yourName);
+        if (!hasNewScore) {
+            nameTextView.setVisibility(View.INVISIBLE);
+        }
+    }
+
     private void initCurrentPersonnalScoreTextView() {
         currentPersonnalScoreTextView = findViewById(R.id.score_textView_scoreRealise);
         String text = TEXT_SCORE_DISPLAY + " : " + score;
@@ -173,10 +203,28 @@ public class ScoresActivity extends Activity {
         }
     }
 
-    private void initRecyclerView() {
+    private void updateRecyclerView() {
         recyclerView = findViewById(R.id.score_recyclerView_affichageScores);
         ScoresAdapter scoresAdapter = new ScoresAdapter(playerNamesList,playerScoresList);
         recyclerView.setAdapter(scoresAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void initTabLayout(){
+        scoresTabLayout = findViewById(R.id.score_tabLayout_scoresTabLayout);
+        scoresTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                updateDynamicData();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
 }

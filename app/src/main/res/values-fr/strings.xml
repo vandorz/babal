@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Babal</string>
+
+    <string name="menu_textView_titreJeu">BABAL</string>
+    <string name="menu_button_lancerJeu">Jouer</string>
+    <string name="menu_button_regles">Règles</string>
+    <string name="menu_button_scores">Scores</string>
+    <string name="menu_button_quitterJeu">Quitter</string>
+    <string name="menu_textView_copyright">Copyright : Aymeric Pinel, Clément Guichard, Romain Goyheneix (support Alessandra Franzese)</string>
+
+    <string name="game_textView_scoreActuel">Score</string>
+    <string name="game_textView_valeurClic">Valeur d\'un clic</string>
+
+    <string name="scores_button_rejouer">Rejouer</string>
+    <string name="scores_button_publier">Publier</string>
+    <string name="scores_button_menu">Menu</string>
+    <string name="scores_textView_scoreEffectue">Votre score : </string>
+    <string name="scores_table_titreScoresLocaux">Local</string>
+    <string name="scores_table_titreScoresGlobaux">Global</string>
+    <string name="scores_textView_votreNom">Votre nom (16 caractères max) :</string>
+    <string name="scores_plainText_votreNom">Entrez votre nom</string>
+
+    <string name="rules_textView_titre">Règles du jeu</string>
+    <string name="rules_textView_regle1">1 : La balle ne doit pas toucher les bords de l\'écran.</string>
+    <string name="rules_textView_regle2">2 : A chaque fois que vous appuyez sur l\'écran, la balle change de direction et vous gagnez des points.</string>
+    <string name="rules_textView_regle3">3 : La vitesse de la balle augmente au fur et à mesure.</string>
+    <string name="rules_textView_regle4">4 : Plus la balle est rapide, plus vous gagnez des points au clic.</string>
+    <string name="rules_textView_regle5">5 : Secouez le téléphone pour réinitialiser la vitesse de la balle.</string>
+    <string name="rules_textView_regle6">6 : A chaque fois que vous secouez le téléphone, la vitesse de la balle augmentera plus vite.</string>
+    <string name="rules_textView_regle7">7 : La lumière fait disparaître la balle progressivement. Masquez le capteur de luminosité pour inverser le processus.</string>
+    <string name="rules_textView_regle8">8 : Faites le meilleur score possible !</string>
+    <string name="rules_button_retour">Retour</string>
+</resources>
