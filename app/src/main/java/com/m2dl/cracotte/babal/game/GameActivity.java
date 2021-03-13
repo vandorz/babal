@@ -70,7 +70,9 @@ public class GameActivity extends Activity {
     @SuppressLint("ClickableViewAccessibility")
     private void initTouchScreen() {
         gameView.setOnTouchListener((v, event) -> {
-            gameView.touchedScreenEvent(event.getX(), event.getY());
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
+                gameView.touchedScreenEvent(event.getX(), event.getY());
+            }
             return true;
         });
         gameView.setOnClickListener(listener -> gameView.touchedScreenEvent(listener.getPivotX(), listener.getPivotY()));
