@@ -3,7 +3,6 @@ package com.m2dl.cracotte.babal.game.listeners;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 import com.m2dl.cracotte.babal.game.GameView;
 

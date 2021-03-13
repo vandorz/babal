@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.widget.Button;
 import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.game.GameActivity;
+import com.m2dl.cracotte.babal.rules.RulesActivity;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
 
 public class MenuActivity extends Activity {
     private Button playButton;
+    private Button rulesButton;
     private Button scoresButton;
     private Button leaveButton;
 
@@ -22,6 +24,7 @@ public class MenuActivity extends Activity {
 
     private void initComponents() {
         initPlayButton();
+        initRulesButton();
         initScoresButton();
         initLeaveButton();
     }
@@ -31,6 +34,15 @@ public class MenuActivity extends Activity {
         playButton.setOnClickListener(listener -> {
             Intent gameIntent = new Intent().setClass(listener.getContext(), GameActivity.class);
             startActivity(gameIntent);
+            finish();
+        });
+    }
+
+    private void initRulesButton(){
+        rulesButton = findViewById(R.id.menu_button_rules);
+        rulesButton.setOnClickListener(listener -> {
+            Intent rulesIntent = new Intent().setClass(listener.getContext(), RulesActivity.class);
+            startActivity(rulesIntent);
             finish();
         });
     }
