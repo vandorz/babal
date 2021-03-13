@@ -1,10 +1,13 @@
 package com.m2dl.cracotte.babal.game;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -64,8 +67,13 @@ public class GameActivity extends Activity {
         sensorManager.registerListener(accelerometerSensorListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initTouchScreen() {
-        gameView.setOnClickListener(listener -> gameView.touchedScreenEvent());
+        gameView.setOnTouchListener((v, event) -> {
+            gameView.touchedScreenEvent(event.getX(), event.getY());
+            return true;
+        });
+        gameView.setOnClickListener(listener -> gameView.touchedScreenEvent(listener.getPivotX(), listener.getPivotY()));
     }
 
     private void initLightSensor() {

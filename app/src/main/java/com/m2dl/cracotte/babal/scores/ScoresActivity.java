@@ -142,7 +142,7 @@ public class ScoresActivity extends Activity {
         publishScoreButton  = findViewById(R.id.score_button_publier);
         publishScoreButton.setOnClickListener(listener -> {
             String playerName = nameEditText.getText().toString();
-            if (hasNewScore && globalScoresTable != null && !playerName.isEmpty()) {
+            if (hasNewScore && !playerName.isEmpty()) {
                 hasNewScore = false;
                 localScoresService.savePlayerName(playerName);
                 globalScoresService.publishNewScore(playerName, score);

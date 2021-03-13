@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Babal</string>
+
+    <string name="menu_textView_titreJeu">BABAL</string>
+    <string name="menu_button_lancerJeu">Spela</string>
+    <string name="menu_button_regles">Regler</string>
+    <string name="menu_button_scores">Poäng</string>
+    <string name="menu_button_quitterJeu">Sluta</string>
+    <string name="menu_textView_copyright">Upphovsrätt : Aymeric Pinel, Clément Guichard, Romain Goyheneix (stöd Alessandra Franzese)</string>
+
+    <string name="game_textView_scoreActuel">Poäng</string>
+    <string name="game_textView_valeurClic">Värdet av en klick</string>
+
+    <string name="scores_button_rejouer">Spela igen</string>
+    <string name="scores_button_publier">Publicera</string>
+    <string name="scores_button_menu">Huvudmeny</string>
+    <string name="scores_textView_scoreEffectue">Din poäng : </string>
+    <string name="scores_table_titreScoresLocaux">Lokal</string>
+    <string name="scores_table_titreScoresGlobaux">Global</string>
+    <string name="scores_textView_votreNom">Ditt namn (Högst 16 tecken) :</string>
+    <string name="scores_plainText_votreNom">Ange ditt namn</string>
+
+    <string name="rules_textView_titre">Spelregler</string>
+    <string name="rules_textView_regle1">1 : Bollen får inte röra kanten på skärmen.</string>
+    <string name="rules_textView_regle2">2 : Varje gång du trycker på skärmen tjänar du poäng.</string>
+    <string name="rules_textView_regle3">3 : Bollens hastighet ökar med tiden.</string>
+    <string name="rules_textView_regle4">4 : Ju snabbare bollen är, desto fler poäng tjänar du.</string>
+    <string name="rules_textView_regle5">5 : Du kan återställa bollhastigheten genom att skaka telefonen.</string>
+    <string name="rules_textView_regle6">6 : Varje gång du återställer bollens hastighet accelererar den snabbare.</string>
+    <string name="rules_textView_regle7">7 : Ljus gör att bollen försvinner. Täck över ljussensorn så att den syns igen.</string>
+    <string name="rules_textView_regle8">8 : Få bästa poäng du kan!</string>
+    <string name="rules_button_retour">Tillbaka</string>
+</resources>
