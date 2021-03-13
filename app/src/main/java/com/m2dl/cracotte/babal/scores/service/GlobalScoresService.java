@@ -17,7 +17,7 @@ import java.util.Map;
 public class GlobalScoresService {
     private DatabaseReference database;
     private ScoresTable scoresTable;
-    private ScoresActivity scoresActivity;
+    private final ScoresActivity scoresActivity;
 
     public GlobalScoresService(ScoresActivity scoresActivity){
         this.scoresActivity = scoresActivity;
@@ -38,6 +38,7 @@ public class GlobalScoresService {
                     String key = currentChild.getKey();
                     Score currentScore = currentChild.getValue(Score.class);
                     scoresMap.put(key, currentScore);
+                    System.out.println(key);
                 }
                 newScoresTable.setScores(scoresMap);
                 scoresTable = newScoresTable;
@@ -52,8 +53,10 @@ public class GlobalScoresService {
     }
 
     public void publishNewScore(String playerName, long score){
-        scoresTable.setNbScores(scoresTable.getNbScores()+1);
-        scoresTable.putScore((scoresTable.getNbScores()) + "", new Score(playerName, score));
-        database.child("tableauScores").setValue(scoresTable);
+        if (scoresTable != null) {
+            scoresTable.setNbScores(scoresTable.getNbScores()+1);
+            scoresTable.putScore((scoresTable.getNbScores()) + "", new Score(playerName, score));
+            database.child("tableauScores").setValue(scoresTable);
+        }
     }
 }

@@ -10,9 +10,13 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.m2dl.cracotte.babal.game.domain.Ball;
+import com.m2dl.cracotte.babal.game.domain.Bonus;
 import com.m2dl.cracotte.babal.game.domain.Direction;
 import com.m2dl.cracotte.babal.game.domain.Music;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.m2dl.cracotte.babal.R.*;
 
@@ -31,6 +35,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameThread thread;
     private Ball ball;
+    private List<Bonus> bonusList;
     private Music music;
 
     private float screenHeight;
@@ -59,6 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private void initGame() {
         initGameArea();
         initBall();
+        initBonusList();
         initScore();
         initMusic();
         startThread();
@@ -79,6 +85,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.setRadius(screenWidth/30);
         ball.setOpacity(INITIAL_BALL_OPACITY);
         ball.setAcceleration(INITIAL_BALL_ACCELERATION);
+    }
+
+    private void initBonusList(){
+        bonusList = new ArrayList<>();
+    }
+    private void initBonus(){
+        Bonus bonus = new Bonus(getMiddleX(), getMiddleY(), 200,200, Direction.EAST);
+        bonus.setSpeed(INITIAL_BALL_SPEED);
+        bonus.setRadius(screenWidth/20);
+        bonus.setOpacity(INITIAL_BALL_OPACITY);
+        bonus.setColor(Color.rgb(0,255,0));
+        bonusList.add(bonus);
     }
 
     private void initScore() {
@@ -104,6 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             drawBackground(canvas);
             drawBall(canvas);
+            drawAllBonus(canvas);
             drawScoreMenu(canvas);
             drawMenu(canvas);
         }
@@ -115,6 +134,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void drawBall(Canvas canvas) {
         ball.drawInside(canvas);
+    }
+
+    public void drawAllBonus(Canvas canvas){
+        for (Bonus currentBonus : bonusList){
+            currentBonus.drawInside(canvas);
+        }
     }
 
     public void drawScoreMenu(Canvas canvas) {
@@ -137,6 +162,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
         updateBallPosition();
+        updateAllBonusPosition();
         updateBallSpeed();
         updateCurrentPoints();
         updateColors();
@@ -147,6 +173,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void updateBallPosition() {
         ball.move();
+    }
+
+    public void updateAllBonusPosition(){
+        for (Bonus currentBonus : bonusList){
+            currentBonus.move();
+        }
     }
 
     private void updateBallSpeed() {
@@ -207,7 +239,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gameActivity.finish();
     }
 
-    public void touchedScreenEvent() {
+    public void touchedScreenEvent(float xPosition, float yPosition) {
         changeBallDirection();
         incrementScore();
     }
