@@ -23,7 +23,7 @@ import static com.m2dl.cracotte.babal.R.*;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public static final int MENU_LINES_WIDTH = 5;
     public static final int MENU_HEIGHT = 200;
-    private static final float INITIAL_BALL_SPEED = 2;
+    private static final float INITIAL_BALL_SPEED = 4;
     private static final float INITIAL_BALL_ACCELERATION = (float) 1.003;
     private static final int INITIAL_BALL_OPACITY = 255;
     private static final int DEFAULT_TEXT_SIZE = 50;
