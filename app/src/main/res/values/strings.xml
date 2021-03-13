@@ -16,4 +16,6 @@
     <string name="scores_textView_scoreEffectue">Votre score : </string>
     <string name="scores_table_titreScoresLocaux">Local</string>
     <string name="scores_table_titreScoresGlobaux">Global</string>
+    <string name="scores_textView_votreNom">Votre nom (16 caractères max) :</string>
+    <string name="scores_plainText_votreNom">Entrez votre nom</string>
 </resources>

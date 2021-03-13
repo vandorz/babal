@@ -41,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int ballColor;
     private int defaultColor;
 
-    private int score;
+    private long score;
     private int currentPoints;
 
     public GameView(Context context) {

@@ -2,10 +2,10 @@ package com.m2dl.cracotte.babal.scores;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -40,6 +40,8 @@ public class ScoresActivity extends Activity {
     private TextView currentPersonnalScoreTextView;
     private RecyclerView recyclerView;
     private TabLayout scoresTabLayout;
+    private EditText nameEditText;
+    private TextView nameTextView;
 
     private long score;
     private boolean hasNewScore;
@@ -75,6 +77,7 @@ public class ScoresActivity extends Activity {
     }
 
     public void updateDynamicData() {
+        updateLocalScores();
         updateScoresDisplay();
         updateRecyclerView();
     }
@@ -82,14 +85,14 @@ public class ScoresActivity extends Activity {
     private void initData() {
         initScore();
         initHasNewScore();
-        initLocalScores();
+        updateLocalScores();
     }
 
     private void initScore(){
         score = getIntent().getLongExtra("scorePerformed", 0);
     }
 
-    private void initLocalScores(){
+    private void updateLocalScores(){
         localScoresTable = localScoresService.getRegisteredScores();
     }
 
@@ -111,12 +114,15 @@ public class ScoresActivity extends Activity {
             for (Map.Entry<String, Score> entry : scoresToShow.getScores().entrySet()) {
                 treeSetScores.add(entry.getValue());
             }
-            int i = 1;
-            while (i<=NB_SCORES_DISPLAYED && i < scoresToShow.getNbScores()){
-                Score currentScore = treeSetScores.pollFirst();
-                playerNamesList[i-1] = currentScore.getPlayerName();
-                playerScoresList[i-1] = currentScore.getScore().toString();
-                i++;
+            for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
+                if (i >= scoresToShow.getNbScores()) {
+                    playerNamesList[i - 1] = "";
+                    playerScoresList[i - 1] = "";
+                } else {
+                    Score currentScore = treeSetScores.pollFirst();
+                    playerNamesList[i - 1] = currentScore.getPlayerName();
+                    playerScoresList[i - 1] = currentScore.getScore().toString();
+                }
             }
         }
     }
@@ -125,6 +131,8 @@ public class ScoresActivity extends Activity {
         initPublishScoreButton();
         initPlayAgainButton();
         initMenuButton();
+        initNameEditText();
+        initNameTextView();
         initCurrentPersonnalScoreTextView();
         updateRecyclerView();
         initTabLayout();
@@ -133,10 +141,13 @@ public class ScoresActivity extends Activity {
     private void initPublishScoreButton() {
         publishScoreButton  = findViewById(R.id.score_button_publier);
         publishScoreButton.setOnClickListener(listener -> {
-            if (hasNewScore && globalScoresTable != null) {
+            String playerName = nameEditText.getText().toString();
+            if (hasNewScore && globalScoresTable != null && !playerName.isEmpty()) {
                 hasNewScore = false;
-                globalScoresService.publishNewScore("Joueur", score);
-                localScoresService.publishNewScore("Joueur", score);
+                localScoresService.savePlayerName(playerName);
+                globalScoresService.publishNewScore(playerName, score);
+                localScoresService.publishNewScore(playerName, score);
+                updateDynamicData();
             } else {
                 // TODO ...
             }
@@ -165,6 +176,22 @@ public class ScoresActivity extends Activity {
             startActivity(mainIntent);
             finish();
         });
+    }
+
+    private void initNameEditText(){
+        nameEditText = findViewById(R.id.score_plainText_yourName);
+        String playerName = localScoresService.getSavedPlayerName();
+        nameEditText.setText(playerName);
+        if (!hasNewScore) {
+            nameEditText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initNameTextView(){
+        nameTextView = findViewById(R.id.score_textView_yourName);
+        if (!hasNewScore) {
+            nameTextView.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initCurrentPersonnalScoreTextView() {

@@ -46,7 +46,7 @@ public class LocalScoresService {
         SharedPreferences.Editor editorNames = sharedPreferencesNames.edit();
         SharedPreferences.Editor editorGlobal = sharedPreferencesGlobal.edit();
 
-        long nbScores = sharedPreferencesGlobal.getLong("nbScores", 0);
+        long nbScores = sharedPreferencesGlobal.getLong("nbScores", 0) + 1;
         String nbScoresString = nbScores + "";
 
         editorGlobal.putLong("nbScores", nbScores);
@@ -56,5 +56,15 @@ public class LocalScoresService {
         editorGlobal.apply();
         editorNames.apply();
         editorScores.apply();
+    }
+
+    public String getSavedPlayerName(){
+        return sharedPreferencesGlobal.getString("playerName", "");
+    }
+
+    public void savePlayerName(String playerName){
+        SharedPreferences.Editor editorGlobal = sharedPreferencesGlobal.edit();
+        editorGlobal.putString("playerName", playerName);
+        editorGlobal.apply();
     }
 }

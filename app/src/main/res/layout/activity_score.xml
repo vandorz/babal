@@ -5,39 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/score_button_publier"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/scores_button_publier"
-        app:layout_constraintBottom_toTopOf="@+id/score_button_rejouer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/score_button_rejouer"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/scores_button_rejouer"
-        app:layout_constraintBottom_toTopOf="@+id/score_button_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/score_button_menu"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
-        android:text="@string/scores_button_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/score_textView_scoreRealise"
         android:layout_width="wrap_content"
@@ -54,7 +21,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_tabLayout_scoresTabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/score_tabLayout_scoresTabLayout"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/score_tabLayout_scoresTabLayout"
@@ -78,5 +45,71 @@
             android:text="@string/scores_table_titreScoresGlobaux" />
 
     </com.google.android.material.tabs.TabLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/score_plainText_yourName"
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="15dp"
+            android:autofillHints="@string/scores_plainText_votreNom"
+            android:ems="10"
+            android:hint="@string/scores_plainText_votreNom"
+            android:inputType="textPersonName"
+            android:labelFor="@id/score_button_publier"
+            android:maxLength="16"
+            app:layout_constraintBottom_toTopOf="@+id/score_button_publier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/score_textView_yourName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/scores_textView_votreNom"
+            app:layout_constraintBottom_toTopOf="@+id/score_plainText_yourName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/score_button_menu"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/scores_button_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/score_button_rejouer"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/scores_button_rejouer"
+            app:layout_constraintBottom_toTopOf="@+id/score_button_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/score_button_publier"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/scores_button_publier"
+            app:layout_constraintBottom_toTopOf="@+id/score_button_rejouer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
