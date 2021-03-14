@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.m2dl.cracotte.babal.R;
 
 public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ViewHolder> {
-    private final String[] localDataSetNomJoueur;
-    private final String[] localDataSetScoreJoueur;
+    private final String[] localDataSetPlayerName;
+    private final String[] localDataSetPlayerScore;
 
-    public ScoresAdapter(String[] dataSetNomJoueur, String[] dataSetScoreJoueur) {
-        this.localDataSetNomJoueur = dataSetNomJoueur;
-        this.localDataSetScoreJoueur = dataSetScoreJoueur;
+    public ScoresAdapter(String[] dataSetPlayerName, String[] dataSetPlayerScore) {
+        this.localDataSetPlayerName = dataSetPlayerName;
+        this.localDataSetPlayerScore = dataSetPlayerScore;
     }
 
     @NonNull
@@ -30,35 +30,37 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String positionString = "" + (position + 1);
         holder.getTextViewPosition().setText(positionString);
-        holder.getTextViewNomJoueur().setText(localDataSetNomJoueur[position]);
-        holder.getTextViewScoreJoueur().setText(localDataSetScoreJoueur[position]);
+        holder.getTextViewPlayerName().setText(localDataSetPlayerName[position]);
+        holder.getTextViewPlayerScore().setText(localDataSetPlayerScore[position]);
     }
 
     @Override
     public int getItemCount() {
-        return localDataSetNomJoueur.length;
+        return localDataSetPlayerName.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewPosition;
-        private final TextView textViewNomJoueur;
-        private final TextView textViewScoreJoueur;
+        private final TextView textViewPlayerName;
+        private final TextView textViewPlayerScore;
 
         public ViewHolder(View view) {
             super(view);
             textViewPosition = view.findViewById(R.id.scoreLine_textView_position);
-            textViewNomJoueur = view.findViewById(R.id.scoreLine_textView_nomJoueur);
-            textViewScoreJoueur = view.findViewById(R.id.scoreLine_textView_scoreJoueur);
+            textViewPlayerName = view.findViewById(R.id.scoreLine_textView_nomJoueur);
+            textViewPlayerScore = view.findViewById(R.id.scoreLine_textView_scoreJoueur);
         }
 
-        public TextView getTextViewPosition() { return this.textViewPosition; }
-
-        public TextView getTextViewNomJoueur(){
-            return this.textViewNomJoueur;
+        public TextView getTextViewPosition() {
+            return this.textViewPosition;
         }
 
-        public TextView getTextViewScoreJoueur(){
-            return this.textViewScoreJoueur;
+        public TextView getTextViewPlayerName() {
+            return this.textViewPlayerName;
+        }
+
+        public TextView getTextViewPlayerScore() {
+            return this.textViewPlayerScore;
         }
     }
 }

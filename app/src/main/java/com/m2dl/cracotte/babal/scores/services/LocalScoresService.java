@@ -18,19 +18,19 @@ public class LocalScoresService {
     SharedPreferences sharedPreferencesNames;
     SharedPreferences sharedPreferencesGlobal;
 
-    public LocalScoresService(Context context){
+    public LocalScoresService(Context context) {
         sharedPreferencesScores = context.getSharedPreferences(SHAREDPREFERENCES_SCORES_TABLE, Context.MODE_PRIVATE);
         sharedPreferencesNames = context.getSharedPreferences(SHAREDPREFERENCES_NAME_TABLE, Context.MODE_PRIVATE);
         sharedPreferencesGlobal = context.getSharedPreferences(SHAREDPREFERENCES_GLOBAL_TABLE, Context.MODE_PRIVATE);
     }
 
-    public ScoresTable getRegisteredScores(){
+    public ScoresTable getRegisteredScores() {
         Map<String, ?> allNamesMap = sharedPreferencesNames.getAll();
 
         ScoresTable scoresTable = new ScoresTable();
         scoresTable.setNbScores(sharedPreferencesGlobal.getLong("nbScores", 0));
         Map<String, Score> scoresMap = new HashMap<>();
-        for (String currentNumberString : allNamesMap.keySet()){
+        for (String currentNumberString : allNamesMap.keySet()) {
             String currentName = sharedPreferencesNames.getString(currentNumberString, "Inconnu");
             long currentScore = sharedPreferencesScores.getLong(currentNumberString, 0);
             scoresMap.put(currentNumberString, new Score(currentName, currentScore));
@@ -39,7 +39,7 @@ public class LocalScoresService {
         return scoresTable;
     }
 
-    public void publishNewScore(String playerName, long score){
+    public void publishNewScore(String playerName, long score) {
         SharedPreferences.Editor editorScores = sharedPreferencesScores.edit();
         SharedPreferences.Editor editorNames = sharedPreferencesNames.edit();
         SharedPreferences.Editor editorGlobal = sharedPreferencesGlobal.edit();
@@ -56,11 +56,11 @@ public class LocalScoresService {
         editorScores.apply();
     }
 
-    public String getSavedPlayerName(){
+    public String getSavedPlayerName() {
         return sharedPreferencesGlobal.getString("playerName", "");
     }
 
-    public void savePlayerName(String playerName){
+    public void savePlayerName(String playerName) {
         SharedPreferences.Editor editorGlobal = sharedPreferencesGlobal.edit();
         editorGlobal.putString("playerName", playerName);
         editorGlobal.apply();

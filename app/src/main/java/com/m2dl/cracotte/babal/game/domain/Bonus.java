@@ -6,7 +6,7 @@ public class Bonus extends GameObject{
     private float maxLeftDistance;
     private float maxRightDistance;
 
-    public Bonus(){
+    public Bonus() {
         super();
         this.initialXPosition = 0.0f;
         this.initialYPosition = 0.0f;
@@ -17,7 +17,7 @@ public class Bonus extends GameObject{
         this.direction = Direction.EAST;
     }
 
-    public Bonus(float initialXPosition, float initialYPosition, float maxLeftDistance, float maxRightDistance, Direction direction){
+    public Bonus(float initialXPosition, float initialYPosition, float maxLeftDistance, float maxRightDistance, Direction direction) {
         super();
         this.initialXPosition = initialXPosition;
         this.initialYPosition = initialYPosition;
@@ -31,9 +31,9 @@ public class Bonus extends GameObject{
     public void move() {
         float yMovement = speed;
         float xMovement = 0.0f;
-        if (direction.equals(Direction.EAST)){
+        if (direction.equals(Direction.EAST)) {
             xMovement = speed*2;
-        }else if (direction.equals(Direction.WEST)){
+        } else if (direction.equals(Direction.WEST)) {
             xMovement = -speed*2;
         }
         moveInX(xMovement);
@@ -41,10 +41,10 @@ public class Bonus extends GameObject{
         changeDirection();
     }
 
-    public void changeDirection(){
-        if (direction.equals(Direction.EAST) && positionInX > initialXPosition + maxRightDistance){
+    public void changeDirection() {
+        if (direction.equals(Direction.EAST) && positionInX > initialXPosition + maxRightDistance) {
             direction = Direction.WEST;
-        }else if(direction.equals(Direction.WEST) && positionInX < initialXPosition - maxLeftDistance){
+        } else if (direction.equals(Direction.WEST) && positionInX < initialXPosition - maxLeftDistance) {
             direction = Direction.EAST;
         }
     }
