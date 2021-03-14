@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.scores.service;
+package com.m2dl.cracotte.babal.scores.services;
 
 import androidx.annotation.NonNull;
 

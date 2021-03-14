@@ -18,8 +18,8 @@ import com.m2dl.cracotte.babal.game.GameActivity;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
-import com.m2dl.cracotte.babal.scores.service.GlobalScoresService;
-import com.m2dl.cracotte.babal.scores.service.LocalScoresService;
+import com.m2dl.cracotte.babal.scores.services.GlobalScoresService;
+import com.m2dl.cracotte.babal.scores.services.LocalScoresService;
 
 import java.util.Map;
 import java.util.TreeSet;
