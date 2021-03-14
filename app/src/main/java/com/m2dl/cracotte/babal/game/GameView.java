@@ -14,6 +14,7 @@ import com.m2dl.cracotte.babal.game.domain.Bonus;
 import com.m2dl.cracotte.babal.game.domain.Direction;
 import com.m2dl.cracotte.babal.game.domain.Music;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
+import com.m2dl.cracotte.babal.utils.services.MusicToggleService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +67,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         initBall();
         initBonusList();
         initScore();
-        initMusic();
-        startThread();
-        startMusic();
+        if (MusicToggleService.isMusicAllowed(this.getContext())) {
+            initMusic();
+            startThread();
+            startMusic();
+        } else {
+            startThread();
+        }
     }
 
     private void initGameArea() {
@@ -221,7 +226,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void endTheGame() {
         thread.setRunning(false);
-        stopMusic();
+        if (MusicToggleService.isMusicAllowed(this.getContext())) {
+            stopMusic();
+        }
         navigateToScoresActivity();
     }
 

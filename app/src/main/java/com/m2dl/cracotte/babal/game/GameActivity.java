@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 import com.m2dl.cracotte.babal.game.listeners.AccelerometerSensorListener;
 import com.m2dl.cracotte.babal.game.listeners.LightSensorListener;
+import com.m2dl.cracotte.babal.utils.services.MusicToggleService;
 
 public class GameActivity extends Activity {
     private GameView gameView;
@@ -45,7 +46,9 @@ public class GameActivity extends Activity {
         initAccelerometer();
         initTouchScreen();
         initLightSensor();
-        gameView.startMusic();
+        if (MusicToggleService.isMusicAllowed(this)) {
+            gameView.startMusic();
+        }
     }
 
     @Override

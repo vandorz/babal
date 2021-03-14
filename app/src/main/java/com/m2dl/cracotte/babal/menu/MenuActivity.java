@@ -2,16 +2,15 @@ package com.m2dl.cracotte.babal.menu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.game.GameActivity;
-import com.m2dl.cracotte.babal.menu.service.MusicToggleService;
 import com.m2dl.cracotte.babal.rules.RulesActivity;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
+import com.m2dl.cracotte.babal.utils.services.MusicToggleService;
 
 public class MenuActivity extends Activity {
     private Button playButton;
