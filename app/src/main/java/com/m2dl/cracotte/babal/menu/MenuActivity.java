@@ -2,10 +2,14 @@ package com.m2dl.cracotte.babal.menu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.game.GameActivity;
+import com.m2dl.cracotte.babal.menu.service.MusicToggleService;
 import com.m2dl.cracotte.babal.rules.RulesActivity;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
 
@@ -14,6 +18,8 @@ public class MenuActivity extends Activity {
     private Button rulesButton;
     private Button scoresButton;
     private Button leaveButton;
+    private ImageView musicButton;
+    private MusicToggleService musicToggleService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,17 @@ public class MenuActivity extends Activity {
         initRulesButton();
         initScoresButton();
         initLeaveButton();
+        initMusicButton();
+    }
+
+    private void initMusicButton() {
+        musicToggleService = new MusicToggleService(this);
+        musicButton = findViewById(R.id.menu_button_music);
+        musicToggleService.updateMusicToggleIcon();
+        musicButton.setOnClickListener(listener -> {
+            musicToggleService.invertMusicSettings();
+            musicToggleService.updateMusicToggleIcon();
+        });
     }
 
     private void initPlayButton() {
@@ -59,5 +76,9 @@ public class MenuActivity extends Activity {
     private void initLeaveButton() {
         leaveButton = findViewById(R.id.menu_button_quitterJeu);
         leaveButton.setOnClickListener(v -> finish());
+    }
+
+    public ImageView getMusicButton() {
+        return musicButton;
     }
 }

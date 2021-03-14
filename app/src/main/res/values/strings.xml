@@ -6,6 +6,7 @@
     <string name="menu_button_regles">Rules</string>
     <string name="menu_button_scores">Scores</string>
     <string name="menu_button_quitterJeu">Quit</string>
+    <string name="menu_button_music">Music Toggle</string>
     <string name="menu_textView_copyright">Copyright : Aymeric Pinel, Clément Guichard, Romain Goyheneix (support Alessandra Franzese)</string>
 
     <string name="game_textView_scoreActuel">Score</string>
