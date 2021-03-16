@@ -2,13 +2,17 @@ package com.m2dl.cracotte.babal.scores;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +58,7 @@ public class ScoresActivity extends Activity {
         initDatabases();
         initData();
         initComponents();
+        initRecyclerView();
         updateScoresDisplay();
     }
 
@@ -209,6 +214,27 @@ public class ScoresActivity extends Activity {
         if (!hasNewScore) {
             currentPersonnalScoreTextView.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void initRecyclerView() {
+        recyclerView.findViewById(R.id.score_recyclerView_affichageScores);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                    outRect.right = 0;
+                    outRect.left = 0;
+                    outRect.top = -6;
+                    outRect.bottom = -6;
+                } else {
+                    outRect.right = 0;
+                    outRect.left = 0;
+                    outRect.top = -2;
+                    outRect.bottom = -2;
+                }
+            }
+        });
     }
 
     private void updateRecyclerView() {
