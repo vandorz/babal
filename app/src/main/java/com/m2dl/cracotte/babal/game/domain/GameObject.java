@@ -14,7 +14,7 @@ public class GameObject {
     protected int color;
     protected int opacity;
 
-    public GameObject(){
+    public GameObject() {
         this.positionInX = 0.0f;
         this.positionInY = 0.0f;
         this.direction = null;
@@ -95,7 +95,7 @@ public class GameObject {
         return positionInX > gameView.getScreenWidth() - radius;
     }
 
-    public boolean touchedObject(float xPosition, float yPosition){
+    public boolean touchedObject(float xPosition, float yPosition) {
         return (xPosition > positionInX - radius
                 && xPosition < positionInX + radius
                 && yPosition > positionInY - radius

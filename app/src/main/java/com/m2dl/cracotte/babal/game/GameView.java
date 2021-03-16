@@ -92,10 +92,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.setAcceleration(INITIAL_BALL_ACCELERATION);
     }
 
-    private void initBonusList(){
+    private void initBonusList() {
         bonusList = new ArrayList<>();
     }
-    private void initBonus(){
+
+    private void initBonus() {
         Bonus bonus = new Bonus(getMiddleX(), getMiddleY(), 200,200, Direction.EAST);
         bonus.setSpeed(INITIAL_BALL_SPEED);
         bonus.setRadius(screenWidth/20);
@@ -141,8 +142,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.drawInside(canvas);
     }
 
-    public void drawAllBonus(Canvas canvas){
-        for (Bonus currentBonus : bonusList){
+    public void drawAllBonus(Canvas canvas) {
+        for (Bonus currentBonus : bonusList) {
             currentBonus.drawInside(canvas);
         }
     }
@@ -180,8 +181,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.move();
     }
 
-    public void updateAllBonusPosition(){
-        for (Bonus currentBonus : bonusList){
+    public void updateAllBonusPosition() {
+        for (Bonus currentBonus : bonusList) {
             currentBonus.move();
         }
     }
@@ -220,7 +221,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    private void updateMenuColor(){
+    private void updateMenuColor() {
         menuColor = Color.BLACK;
     }
 

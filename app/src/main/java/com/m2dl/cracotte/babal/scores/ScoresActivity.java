@@ -18,8 +18,8 @@ import com.m2dl.cracotte.babal.game.GameActivity;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
-import com.m2dl.cracotte.babal.scores.service.GlobalScoresService;
-import com.m2dl.cracotte.babal.scores.service.LocalScoresService;
+import com.m2dl.cracotte.babal.scores.services.GlobalScoresService;
+import com.m2dl.cracotte.babal.scores.services.LocalScoresService;
 
 import java.util.Map;
 import java.util.TreeSet;
@@ -32,7 +32,6 @@ public class ScoresActivity extends Activity {
     private ScoresTable localScoresTable;
     String[] playerNamesList = new String[NB_SCORES_DISPLAYED];
     String[] playerScoresList = new String[NB_SCORES_DISPLAYED];
-
 
     private Button publishScoreButton;
     private Button playAgainButton;
@@ -63,15 +62,15 @@ public class ScoresActivity extends Activity {
         initLocalDatabase();
     }
 
-    private void initGlobalDatabase(){
+    private void initGlobalDatabase() {
         globalScoresService = new GlobalScoresService(this);
     }
 
-    private void initLocalDatabase(){
+    private void initLocalDatabase() {
         localScoresService = new LocalScoresService(getApplicationContext());
     }
 
-    public void receiveNewDataFromDatabase(ScoresTable newScoresTable){
+    public void receiveNewDataFromDatabase(ScoresTable newScoresTable) {
         globalScoresTable = newScoresTable;
         updateDynamicData();
     }
@@ -88,11 +87,11 @@ public class ScoresActivity extends Activity {
         updateLocalScores();
     }
 
-    private void initScore(){
+    private void initScore() {
         score = getIntent().getLongExtra("scorePerformed", 0);
     }
 
-    private void updateLocalScores(){
+    private void updateLocalScores() {
         localScoresTable = localScoresService.getRegisteredScores();
     }
 
@@ -102,29 +101,38 @@ public class ScoresActivity extends Activity {
 
     private void updateScoresDisplay() {
         ScoresTable scoresToShow;
-        if (scoresTabLayout.getSelectedTabPosition() == 0){
+        if (scoresTabLayout.getSelectedTabPosition() == 0) {
             scoresToShow = localScoresTable;
-        }else if (scoresTabLayout.getSelectedTabPosition() == 1){
+        } else if (scoresTabLayout.getSelectedTabPosition() == 1) {
             scoresToShow = globalScoresTable;
-        }else{
-            return; //TODO erreur
+        } else {
+            return; // TODO erreur
         }
         if (scoresToShow != null  && scoresToShow.getScores() != null) {
-            TreeSet<Score> treeSetScores = new TreeSet<>();
-            for (Map.Entry<String, Score> entry : scoresToShow.getScores().entrySet()) {
-                treeSetScores.add(entry.getValue());
-            }
-            for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
-                if (i >= scoresToShow.getNbScores()) {
-                    playerNamesList[i - 1] = "";
-                    playerScoresList[i - 1] = "";
-                } else {
-                    Score currentScore = treeSetScores.pollFirst();
-                    playerNamesList[i - 1] = currentScore.getPlayerName();
-                    playerScoresList[i - 1] = currentScore.getScore().toString();
-                }
+            updateScores(scoresToShow);
+        }
+    }
+
+    private void updateScores(ScoresTable scoresTable) {
+        TreeSet<Score> treeSetScores = createTreeSetOfScores(scoresTable);
+        for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
+            if (i >= scoresTable.getNbScores()) {
+                playerNamesList[i - 1] = "";
+                playerScoresList[i - 1] = "";
+            } else {
+                Score currentScore = treeSetScores.pollFirst();
+                playerNamesList[i - 1] = currentScore.getPlayerName();
+                playerScoresList[i - 1] = currentScore.getScore().toString();
             }
         }
+    }
+
+    private TreeSet<Score> createTreeSetOfScores(ScoresTable scoresTable) {
+        TreeSet<Score> treeSetScores = new TreeSet<>();
+        for (Map.Entry<String, Score> entry : scoresTable.getScores().entrySet()) {
+            treeSetScores.add(entry.getValue());
+        }
+        return treeSetScores;
     }
 
     private void initComponents() {
@@ -164,7 +172,7 @@ public class ScoresActivity extends Activity {
             startActivity(gameIntent);
             finish();
         });
-        if (!hasNewScore){
+        if (!hasNewScore) {
             playAgainButton.setVisibility(View.INVISIBLE);
         }
     }
@@ -178,7 +186,7 @@ public class ScoresActivity extends Activity {
         });
     }
 
-    private void initNameEditText(){
+    private void initNameEditText() {
         nameEditText = findViewById(R.id.score_plainText_yourName);
         String playerName = localScoresService.getSavedPlayerName();
         nameEditText.setText(playerName);
@@ -187,7 +195,7 @@ public class ScoresActivity extends Activity {
         }
     }
 
-    private void initNameTextView(){
+    private void initNameTextView() {
         nameTextView = findViewById(R.id.score_textView_yourName);
         if (!hasNewScore) {
             nameTextView.setVisibility(View.INVISIBLE);
@@ -210,7 +218,7 @@ public class ScoresActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void initTabLayout(){
+    private void initTabLayout() {
         scoresTabLayout = findViewById(R.id.score_tabLayout_scoresTabLayout);
         scoresTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -220,10 +228,12 @@ public class ScoresActivity extends Activity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }

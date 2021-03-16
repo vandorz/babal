@@ -9,13 +9,12 @@ public class MusicToggleService {
     private static final String SHAREDPREFERENCES_SOUND_STATE = "soundState";
     private static final String SOUND_STATUS_LABEL = "status";
 
-    private SharedPreferences sharedPreferencesSoundState;
-
-    private MenuActivity menuActivity;
+    private final SharedPreferences sharedPreferencesSoundState;
+    private final MenuActivity menuActivity;
 
     public MusicToggleService(MenuActivity menuActivity) {
         this.menuActivity = menuActivity;
-        sharedPreferencesSoundState = menuActivity.getSharedPreferences(SHAREDPREFERENCES_SOUND_STATE, Context.MODE_PRIVATE);
+        this.sharedPreferencesSoundState = menuActivity.getSharedPreferences(SHAREDPREFERENCES_SOUND_STATE, Context.MODE_PRIVATE);
     }
 
     public void updateMusicToggleIcon() {

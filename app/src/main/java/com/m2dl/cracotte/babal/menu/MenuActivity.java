@@ -54,7 +54,7 @@ public class MenuActivity extends Activity {
         });
     }
 
-    private void initRulesButton(){
+    private void initRulesButton() {
         rulesButton = findViewById(R.id.menu_button_rules);
         rulesButton.setOnClickListener(listener -> {
             Intent rulesIntent = new Intent().setClass(listener.getContext(), RulesActivity.class);
