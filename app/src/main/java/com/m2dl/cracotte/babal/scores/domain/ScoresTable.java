@@ -26,7 +26,7 @@ public class ScoresTable {
         this.scores = scores;
     }
 
-    public void putScore(String key, Score value){
+    public void putScore(String key, Score value) {
         scores.put(key, value);
     }
 }

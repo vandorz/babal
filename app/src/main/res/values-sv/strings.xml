@@ -6,6 +6,7 @@
     <string name="menu_button_regles">Regler</string>
     <string name="menu_button_scores">Poäng</string>
     <string name="menu_button_quitterJeu">Sluta</string>
+    <string name="menu_button_music">Musik</string>
     <string name="menu_textView_copyright">Upphovsrätt : Aymeric Pinel, Clément Guichard, Romain Goyheneix (stöd Alessandra Franzese)</string>
 
     <string name="game_textView_scoreActuel">Poäng</string>
