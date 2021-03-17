@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="20dp">
+    android:layout_height="@dimen/_20sdp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:id="@+id/scoreLine_textView_nomJoueur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="@dimen/_44sdp"
                 app:layout_constraintStart_toEndOf="@+id/scoreLine_textView_position"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
                 android:id="@+id/scoreLine_textView_scoreJoueur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/_16sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
                 android:id="@+id/scoreLine_textView_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="@dimen/_4sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
