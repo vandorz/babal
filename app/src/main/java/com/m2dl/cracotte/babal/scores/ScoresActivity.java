@@ -120,8 +120,11 @@ public class ScoresActivity extends Activity {
                     playerScoresList[i - 1] = "";
                 } else {
                     Score currentScore = treeSetScores.pollFirst();
-                    playerNamesList[i - 1] = currentScore.getPlayerName();
-                    playerScoresList[i - 1] = currentScore.getScore().toString();
+                    if (currentScore != null){
+                        playerNamesList[i - 1] = currentScore.getPlayerName();
+                        playerScoresList[i - 1] = currentScore.getScore().toString();
+                    }
+
                 }
             }
         }

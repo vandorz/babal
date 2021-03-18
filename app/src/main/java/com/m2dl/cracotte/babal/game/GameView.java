@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import com.m2dl.cracotte.babal.game.domain.Ball;
 import com.m2dl.cracotte.babal.game.domain.Bonus;
+import com.m2dl.cracotte.babal.game.domain.BonusType;
 import com.m2dl.cracotte.babal.game.domain.Direction;
 import com.m2dl.cracotte.babal.game.domain.Music;
 import com.m2dl.cracotte.babal.scores.ScoresActivity;
@@ -90,8 +91,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private void initBonusList(){
         bonusList = new ArrayList<>();
     }
+
     private void initBonus(){
-        Bonus bonus = new Bonus(getMiddleX(), getMiddleY(), 200,200, Direction.EAST);
+        float randomX = (float) randomNumber(-100, (int) screenWidth + 100);
+        float randomY = (float) randomNumber(-500, (int)getMiddleY());
+        Bonus bonus = new Bonus(randomX, randomY, 200,200, Direction.EAST);
         bonus.setSpeed(INITIAL_BALL_SPEED);
         bonus.setRadius(screenWidth/20);
         bonus.setOpacity(INITIAL_BALL_OPACITY);
@@ -162,12 +166,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
         updateBallPosition();
+        randomizeBonusCreation();
         updateAllBonusPosition();
         updateBallSpeed();
         updateCurrentPoints();
         updateColors();
         if (ball.isOutOf(this)) {
-            endTheGame();
+            if (ball.getBounceNumber() <= 0){
+                endTheGame();
+            } else {
+                ball.setBounceNumber(ball.getBounceNumber() - 1);
+                ball.reverseDirection(this);
+                ball.move();
+            }
+
         }
     }
 
@@ -175,7 +187,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ball.move();
     }
 
-    public void updateAllBonusPosition(){
+    private void randomizeBonusCreation(){
+        int randomNumber = (int) randomNumber(0,50);
+        if (randomNumber == 1){
+            initBonus();
+        }
+    }
+
+    private void updateAllBonusPosition(){
         for (Bonus currentBonus : bonusList){
             currentBonus.move();
         }
@@ -242,6 +261,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void touchedScreenEvent(float xPosition, float yPosition) {
         changeBallDirection();
         incrementScore();
+        checkIfBonusTouched(xPosition, yPosition);
     }
 
     public void changeBallDirection() {
@@ -250,6 +270,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void incrementScore() {
         score += currentPoints;
+    }
+
+    private void checkIfBonusTouched(float xPosition, float yPosition){
+        List<Bonus> bonusToRemove = new ArrayList<>();
+        for (Bonus bonus : bonusList){
+            if (bonus.isTouched(xPosition, yPosition) && bonus.isEnable()){
+                bonus.setEnable(false);
+                bonusToRemove.add(bonus);
+                performBonus(bonus.getBonusType());
+            }
+        }
+        for (Bonus bonus : bonusToRemove){
+            bonusList.remove(bonus);
+        }
+    }
+
+    private void performBonus(BonusType bonusType){
+        switch (bonusType){
+            case BOUNCE:
+                ball.setBounceNumber(ball.getBounceNumber() + 3);
+                break;
+        }
     }
 
     public void resetSpeedAndAccelerate() {
@@ -304,5 +346,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public float getMiddleY() {
         return screenHeight / 2 + MENU_HEIGHT;
+    }
+
+    private double randomNumber(int min, int max){
+        return (Math.random()*(max-min+1)+min);
     }
 }
