@@ -3,6 +3,8 @@ package com.m2dl.cracotte.babal.game;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -142,12 +144,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void drawBall(Canvas canvas) {
-        ball.drawInside(canvas);
+        Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), drawable.ic_ball), (int)ball.getRadius()*2, (int)ball.getRadius()*2, true);
+        ball.drawInside(canvas, bitmap);
     }
 
     public void drawAllBonus(Canvas canvas) {
         for (Bonus currentBonus : bonusList) {
-            currentBonus.drawInside(canvas);
+            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), drawable.ic_bonus), (int)currentBonus.getRadius()*2, (int)currentBonus.getRadius()*2, true);
+            currentBonus.drawInside(canvas, bitmap);
         }
     }
 
