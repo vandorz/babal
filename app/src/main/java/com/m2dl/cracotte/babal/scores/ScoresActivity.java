@@ -176,12 +176,17 @@ public class ScoresActivity extends Activity {
                 }
                 localScoresService.publishNewScore(playerName, score);
                 updateDynamicData();
-            } else {
+            } else if (!hasNewScore){
+                Toast errorToast = new Toast(this);
+                errorToast.setDuration(Toast.LENGTH_LONG);
+                errorToast.setText("Vous avez déjà publié ce score une fois.");
+                errorToast.show();
+
+            } else if (playerName.isEmpty()){
                 Toast errorToast = new Toast(this);
                 errorToast.setDuration(Toast.LENGTH_LONG);
                 errorToast.setText("Veuillez saisir un nom pour publier votre score.");
                 errorToast.show();
-
             }
         });
         if (!hasNewScore) {
