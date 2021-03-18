@@ -1,4 +1,4 @@
-package com.m2dl.cracotte.babal.scores.service;
+package com.m2dl.cracotte.babal.scores.services;
 
 import androidx.annotation.NonNull;
 
@@ -19,12 +19,12 @@ public class GlobalScoresService {
     private ScoresTable scoresTable;
     private final ScoresActivity scoresActivity;
 
-    public GlobalScoresService(ScoresActivity scoresActivity){
+    public GlobalScoresService(ScoresActivity scoresActivity) {
         this.scoresActivity = scoresActivity;
         initDatabase();
     }
 
-    private void initDatabase(){
+    private void initDatabase() {
         database = FirebaseDatabase.getInstance("https://babal-10a43-default-rtdb.firebaseio.com").getReference();
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -52,7 +52,7 @@ public class GlobalScoresService {
         });
     }
 
-    public void publishNewScore(String playerName, long score){
+    public void publishNewScore(String playerName, long score) {
         if (scoresTable != null) {
             scoresTable.setNbScores(scoresTable.getNbScores()+1);
             scoresTable.putScore((scoresTable.getNbScores()) + "", new Score(playerName, score));
