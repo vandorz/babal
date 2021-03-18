@@ -20,6 +20,10 @@
     <string name="scores_table_titreScoresGlobaux">Global</string>
     <string name="scores_textView_votreNom">Your name (maximum 16 characters) :</string>
     <string name="scores_plainText_votreNom">State your name</string>
+    <string name="scores_toast_pasInternetPasPublication">Unable to connect to the Internet. You cannot send your score.</string>
+    <string name="scores_toast_pasInternetPasChargement">Unable to connect to the Internet. You cannot load the global leaderboard.</string>
+    <string name="scores_toast_scoreDejaPublie">You already have published this score.</string>
+    <string name="scores_toast_nomVide">You must fill your name before publishing your score.</string>
 
     <string name="rules_textView_titre">Game rules</string>
     <string name="rules_textView_regle1">1 : The ball must not touch the edge of the screen.</string>
