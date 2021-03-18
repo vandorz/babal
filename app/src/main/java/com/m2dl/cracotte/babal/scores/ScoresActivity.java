@@ -114,10 +114,7 @@ public class ScoresActivity extends Activity {
             return; // TODO erreur
         }
         if (scoresToShow != null  && scoresToShow.getScores() != null) {
-            TreeSet<Score> treeSetScores = new TreeSet<>();
-            for (Map.Entry<String, Score> entry : scoresToShow.getScores().entrySet()) {
-                treeSetScores.add(entry.getValue());
-            }
+            TreeSet<Score> treeSetScores = createTreeSetOfScores(scoresToShow);
             for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
                 if (i >= scoresToShow.getNbScores()) {
                     playerNamesList[i - 1] = "";

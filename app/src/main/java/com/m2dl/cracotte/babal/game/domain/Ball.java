@@ -25,8 +25,47 @@ public class Ball extends GameObject {
 
     public void changeDirection() {
         Direction newDirection = direction;
-        while (newDirection == direction) {
-            newDirection = Direction.getRandomDirection();
+        switch (direction) {
+            case NORTH:
+                while (newDirection == NORTH || newDirection == NORTH_EAST || newDirection == NORTH_WEST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case NORTH_EAST:
+                while (newDirection == NORTH || newDirection == NORTH_EAST || newDirection == EAST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case EAST:
+                while (newDirection == SOUTH_EAST || newDirection == NORTH_EAST || newDirection == EAST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case SOUTH_EAST:
+                while (newDirection == SOUTH_EAST || newDirection == SOUTH || newDirection == EAST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case SOUTH:
+                while (newDirection == SOUTH_EAST || newDirection == SOUTH || newDirection == SOUTH_WEST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case SOUTH_WEST:
+                while (newDirection == WEST || newDirection == SOUTH || newDirection == SOUTH_WEST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case WEST:
+                while (newDirection == WEST || newDirection == NORTH_WEST || newDirection == SOUTH_WEST) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
+            case NORTH_WEST:
+                while (newDirection == WEST || newDirection == NORTH_WEST || newDirection == NORTH) {
+                    newDirection = Direction.getRandomDirection();
+                }
+                break;
         }
         direction = newDirection;
     }
