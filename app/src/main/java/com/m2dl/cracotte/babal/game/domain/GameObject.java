@@ -80,7 +80,7 @@ public class GameObject {
     }
 
     public boolean isAtTopOf(GameView gameView) {
-        return positionInY < GameView.MENU_HEIGHT + GameView.MENU_LINES_WIDTH + radius;
+        return positionInY < GameView.MENU_HEIGHT + radius;
     }
 
     public boolean isAtBottomOf(GameView gameView) {
