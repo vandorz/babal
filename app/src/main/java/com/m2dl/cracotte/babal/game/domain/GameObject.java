@@ -1,5 +1,6 @@
 package com.m2dl.cracotte.babal.game.domain;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -23,11 +24,12 @@ public class GameObject {
         this.color = 0;
     }
 
-    public void drawInside(Canvas canvas) {
+    public void drawInside(Canvas canvas, Bitmap ballBitmap) {
         Paint paint = new Paint();
         paint.setColor(color);
         paint.setAlpha(opacity);
         canvas.drawCircle(positionInX, positionInY, radius, paint);
+        canvas.drawBitmap(ballBitmap, positionInX-radius, positionInY-radius, paint);
     }
 
     public void move() {
@@ -80,7 +82,7 @@ public class GameObject {
     }
 
     public boolean isAtTopOf(GameView gameView) {
-        return positionInY < GameView.MENU_HEIGHT + GameView.MENU_LINES_WIDTH + radius;
+        return positionInY < GameView.MENU_HEIGHT + radius;
     }
 
     public boolean isAtBottomOf(GameView gameView) {

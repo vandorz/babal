@@ -11,6 +11,7 @@
 
     <string name="game_textView_scoreActuel">Poäng</string>
     <string name="game_textView_valeurClic">Värdet av en klick</string>
+    <string name="game_textView_cptRebonds">Studsar nummer</string>
 
     <string name="scores_button_rejouer">Spela igen</string>
     <string name="scores_button_publier">Publicera</string>
@@ -20,6 +21,10 @@
     <string name="scores_table_titreScoresGlobaux">Global</string>
     <string name="scores_textView_votreNom">Ditt namn (Högst 16 tecken) :</string>
     <string name="scores_plainText_votreNom">Ange ditt namn</string>
+    <string name="scores_toast_pasInternetPasPublication">Det går inte att ansluta till Internet. Poängen skickas inte.</string>
+    <string name="scores_toast_pasInternetPasChargement">Det går inte att ansluta till Internet. Globala poängen debiteras inte.</string>
+    <string name="scores_toast_scoreDejaPublie">Denna poäng har redan publicerats.</string>
+    <string name="scores_toast_nomVide">Du måste fylla i ditt namn innan du publicerar din poäng.</string>
 
     <string name="rules_textView_titre">Spelregler</string>
     <string name="rules_textView_regle1">1 : Bollen får inte röra kanten på skärmen.</string>

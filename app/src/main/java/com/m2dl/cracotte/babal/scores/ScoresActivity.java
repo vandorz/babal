@@ -31,9 +31,6 @@ import java.util.TreeSet;
 
 public class ScoresActivity extends Activity {
     private static final int NB_SCORES_DISPLAYED = 10;
-    private static final String TEXT_SCORE_DISPLAY = "Votre score";
-    private static final String TEXT_SCORE_NOT_SENT = "Internet est inaccessible. Le score ne sera pas envoyé.";
-    private static final String TEXT_SCORE_GLOBAL_NOT_LOADING = "Internet est inaccessible. Impossible de charger les scores globaux.";
 
     private ScoresTable globalScoresTable;
     private ScoresTable localScoresTable;
@@ -74,7 +71,7 @@ public class ScoresActivity extends Activity {
         if (InternetConnectivityService.isInternetReachable(this)) {
             globalScoresService = new GlobalScoresService(this);
         } else {
-            Toast.makeText(this, TEXT_SCORE_GLOBAL_NOT_LOADING, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.scores_toast_pasInternetPasChargement), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -119,7 +116,7 @@ public class ScoresActivity extends Activity {
             if (InternetConnectivityService.isInternetReachable(this)) {
                 scoresToShow = globalScoresTable;
             } else {
-                Toast.makeText(this, TEXT_SCORE_GLOBAL_NOT_LOADING, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.scores_toast_pasInternetPasChargement), Toast.LENGTH_SHORT).show();
                 scoresToShow = localScoresTable;
                 scoresTabLayout.selectTab(scoresTabLayout.getTabAt(0));
             }
@@ -172,12 +169,15 @@ public class ScoresActivity extends Activity {
                 if (InternetConnectivityService.isInternetReachable(this)) {
                     globalScoresService.publishNewScore(playerName, score);
                 } else {
-                    Toast.makeText(this, TEXT_SCORE_NOT_SENT, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.scores_toast_pasInternetPasPublication), Toast.LENGTH_SHORT).show();
                 }
                 localScoresService.publishNewScore(playerName, score);
                 updateDynamicData();
-            } else {
-                // TODO ...
+            } else if (!hasNewScore){
+                Toast.makeText(this, getResources().getString(R.string.scores_toast_scoreDejaPublie), Toast.LENGTH_SHORT).show();
+
+            } else if (playerName.isEmpty()){
+                Toast.makeText(this, getResources().getString(R.string.scores_toast_nomVide), Toast.LENGTH_SHORT).show();
             }
         });
         if (!hasNewScore) {
@@ -224,7 +224,7 @@ public class ScoresActivity extends Activity {
 
     private void initCurrentPersonnalScoreTextView() {
         currentPersonnalScoreTextView = findViewById(R.id.score_textView_scoreRealise);
-        String text = TEXT_SCORE_DISPLAY + " : " + score;
+        String text = getResources().getString(R.string.scores_textView_scoreEffectue) + " " + score;
         currentPersonnalScoreTextView.setText(text);
         if (!hasNewScore) {
             currentPersonnalScoreTextView.setVisibility(View.INVISIBLE);

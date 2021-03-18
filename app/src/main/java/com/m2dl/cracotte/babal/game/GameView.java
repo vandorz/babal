@@ -3,6 +3,8 @@ package com.m2dl.cracotte.babal.game;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,14 +25,10 @@ import java.util.List;
 import static com.m2dl.cracotte.babal.R.*;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    public static final int MENU_LINES_WIDTH = 5;
     public static final int MENU_HEIGHT = 200;
     private static final float INITIAL_BALL_SPEED = 4;
     private static final float INITIAL_BALL_ACCELERATION = (float) 1.003;
     private static final int INITIAL_BALL_OPACITY = 255;
-    private static final int DEFAULT_TEXT_SIZE = 50;
-    private static final String TEXT_MENU_SCORE = "Score";
-    private static final String TEXT_MENU_CLICK_VALUE = "Valeur d'un clic";
     private static final float LIGHT_LOWER_THRESHOLD = 1;
     private static final float BALL_OPACITY_DECREASE = (float) 0.5;
     private static final float BALL_OPACITY_INCREASE = (float) 1;
@@ -44,7 +42,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private float screenWidth;
 
     private int backgroundColor;
-    private int menuColor;
+    private int menuLeftColor;
+    private int menuRightColor;
+    private int menuTextColor;
 
     private long score;
     private int currentPoints;
@@ -133,7 +133,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             drawBall(canvas);
             drawAllBonus(canvas);
             drawScoreMenu(canvas);
-            drawMenu(canvas);
         }
     }
 
@@ -142,31 +141,42 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void drawBall(Canvas canvas) {
-        ball.drawInside(canvas);
+        Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), drawable.ic_ball), (int)ball.getRadius()*2, (int)ball.getRadius()*2, true);
+        ball.drawInside(canvas, bitmap);
     }
 
     public void drawAllBonus(Canvas canvas) {
         for (Bonus currentBonus : bonusList) {
-            currentBonus.drawInside(canvas);
+            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), drawable.ic_bonus), (int)currentBonus.getRadius()*2, (int)currentBonus.getRadius()*2, true);
+            currentBonus.drawInside(canvas, bitmap);
         }
     }
 
     public void drawScoreMenu(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(menuColor);
-        for (int i = 0; i<= MENU_LINES_WIDTH; i++) {
-            canvas.drawLine(0, MENU_HEIGHT + i, screenWidth, MENU_HEIGHT + i, paint);
-        }
-    }
+        String textPoints = getResources().getString(string.game_textView_valeurClic) + " : " + currentPoints;
+        String textScores = getResources().getString(string.game_textView_scoreActuel) + " : " + score;
+        String textRebonds = getResources().getString(string.game_textView_cptRebonds) + " : " + ball.getBounceNumber();
 
-    public void drawMenu(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(menuColor);
-        paint.setTextSize(DEFAULT_TEXT_SIZE);
-        int leftMarge = 100;
-        int topMarge = (MENU_HEIGHT /3)*2;
-        canvas.drawText(TEXT_MENU_CLICK_VALUE + " : " + currentPoints, leftMarge, topMarge, paint);
-        canvas.drawText(TEXT_MENU_SCORE + " : " + score, screenWidth - (4*leftMarge), topMarge, paint);
+        float menuSeparation = screenWidth * ((float)(textPoints.length() * 100 / (textPoints.length() + textScores.length())) / 100.0f);
+        float textSize = 40;
+        float textTop = (float)MENU_HEIGHT / 2 + textSize / 2;
+        float textHalfUpper = (float)MENU_HEIGHT / 4 + textSize / 2;
+        float textHalfLower = (float)MENU_HEIGHT - textSize;
+
+        Paint menuLeftBackgroundPaint = new Paint();
+        menuLeftBackgroundPaint.setColor(menuLeftColor);
+        Paint menuRightBackgroundPaint = new Paint();
+        menuRightBackgroundPaint.setColor(menuRightColor);
+        Paint menuTextPaint = new Paint();
+        menuTextPaint.setColor(menuTextColor);
+        menuTextPaint.setTextSize(textSize);
+        menuTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        canvas.drawRect(0, 0, menuSeparation, MENU_HEIGHT, menuLeftBackgroundPaint);
+        canvas.drawRect(menuSeparation, 0, screenWidth, MENU_HEIGHT, menuRightBackgroundPaint);
+        canvas.drawText(textPoints, menuSeparation / 2, textHalfUpper, menuTextPaint);
+        canvas.drawText(textRebonds, menuSeparation / 2, textHalfLower, menuTextPaint);
+        canvas.drawText(textScores, ((screenWidth - menuSeparation) / 2) + menuSeparation, textTop, menuTextPaint);
     }
 
     public void update() {
@@ -240,7 +250,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void updateMenuColor() {
-        menuColor = Color.BLACK;
+        menuLeftColor = Color.rgb(0, 127, 255);
+        menuRightColor = Color.rgb(15, 157, 232);
+        menuTextColor = Color.WHITE;
     }
 
     private void endTheGame() {
