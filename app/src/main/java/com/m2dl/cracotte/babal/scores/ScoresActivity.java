@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -24,6 +24,7 @@ import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
 import com.m2dl.cracotte.babal.scores.services.GlobalScoresService;
 import com.m2dl.cracotte.babal.scores.services.LocalScoresService;
+import com.m2dl.cracotte.babal.utils.services.InternetConnectivityService;
 
 import java.util.Map;
 import java.util.TreeSet;
@@ -31,6 +32,8 @@ import java.util.TreeSet;
 public class ScoresActivity extends Activity {
     private static final int NB_SCORES_DISPLAYED = 10;
     private static final String TEXT_SCORE_DISPLAY = "Votre score";
+    private static final String TEXT_SCORE_NOT_SENT = "Internet est inaccessible. Le score ne sera pas envoyé.";
+    private static final String TEXT_SCORE_GLOBAL_NOT_LOADING = "Internet est inaccessible. Impossible de charger les scores globaux.";
 
     private ScoresTable globalScoresTable;
     private ScoresTable localScoresTable;
@@ -68,7 +71,11 @@ public class ScoresActivity extends Activity {
     }
 
     private void initGlobalDatabase() {
-        globalScoresService = new GlobalScoresService(this);
+        if (InternetConnectivityService.isInternetReachable(this)) {
+            globalScoresService = new GlobalScoresService(this);
+        } else {
+            Toast.makeText(this, TEXT_SCORE_GLOBAL_NOT_LOADING, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initLocalDatabase() {
@@ -109,7 +116,13 @@ public class ScoresActivity extends Activity {
         if (scoresTabLayout.getSelectedTabPosition() == 0) {
             scoresToShow = localScoresTable;
         } else if (scoresTabLayout.getSelectedTabPosition() == 1) {
-            scoresToShow = globalScoresTable;
+            if (InternetConnectivityService.isInternetReachable(this)) {
+                scoresToShow = globalScoresTable;
+            } else {
+                Toast.makeText(this, TEXT_SCORE_GLOBAL_NOT_LOADING, Toast.LENGTH_SHORT).show();
+                scoresToShow = localScoresTable;
+                scoresTabLayout.selectTab(scoresTabLayout.getTabAt(0));
+            }
         } else {
             return; // TODO erreur
         }
@@ -125,7 +138,6 @@ public class ScoresActivity extends Activity {
                         playerNamesList[i - 1] = currentScore.getPlayerName();
                         playerScoresList[i - 1] = currentScore.getScore().toString();
                     }
-
                 }
             }
         }
@@ -157,7 +169,11 @@ public class ScoresActivity extends Activity {
             if (hasNewScore && !playerName.isEmpty()) {
                 hasNewScore = false;
                 localScoresService.savePlayerName(playerName);
-                globalScoresService.publishNewScore(playerName, score);
+                if (InternetConnectivityService.isInternetReachable(this)) {
+                    globalScoresService.publishNewScore(playerName, score);
+                } else {
+                    Toast.makeText(this, TEXT_SCORE_NOT_SENT, Toast.LENGTH_SHORT).show();
+                }
                 localScoresService.publishNewScore(playerName, score);
                 updateDynamicData();
             } else {
