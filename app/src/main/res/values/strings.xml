@@ -11,6 +11,7 @@
 
     <string name="game_textView_scoreActuel">Score</string>
     <string name="game_textView_valeurClic">Clic value</string>
+    <string name="game_textView_cptRebonds">Bounces available</string>
 
     <string name="scores_button_rejouer">Play again</string>
     <string name="scores_button_publier">Publish</string>
