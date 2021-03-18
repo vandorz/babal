@@ -155,10 +155,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void drawScoreMenu(Canvas canvas) {
         String textPoints = getResources().getString(string.game_textView_valeurClic) + " : " + currentPoints;
         String textScores = getResources().getString(string.game_textView_scoreActuel) + " : " + score;
+        String textRebonds = getResources().getString(string.game_textView_cptRebonds) + " : " + ball.getBounceNumber();
 
         float menuSeparation = screenWidth * ((float)(textPoints.length() * 100 / (textPoints.length() + textScores.length())) / 100.0f);
         float textSize = 40;
         float textTop = (float)MENU_HEIGHT / 2 + textSize / 2;
+        float textHalfUpper = (float)MENU_HEIGHT / 4 + textSize / 2;
+        float textHalfLower = (float)MENU_HEIGHT - textSize;
 
         Paint menuLeftBackgroundPaint = new Paint();
         menuLeftBackgroundPaint.setColor(menuLeftColor);
@@ -171,7 +174,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         canvas.drawRect(0, 0, menuSeparation, MENU_HEIGHT, menuLeftBackgroundPaint);
         canvas.drawRect(menuSeparation, 0, screenWidth, MENU_HEIGHT, menuRightBackgroundPaint);
-        canvas.drawText(textPoints, menuSeparation / 2, textTop, menuTextPaint);
+        canvas.drawText(textPoints, menuSeparation / 2, textHalfUpper, menuTextPaint);
+        canvas.drawText(textRebonds, menuSeparation / 2, textHalfLower, menuTextPaint);
         canvas.drawText(textScores, ((screenWidth - menuSeparation) / 2) + menuSeparation, textTop, menuTextPaint);
     }
 

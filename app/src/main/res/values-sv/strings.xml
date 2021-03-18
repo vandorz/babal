@@ -11,6 +11,7 @@
 
     <string name="game_textView_scoreActuel">Poäng</string>
     <string name="game_textView_valeurClic">Värdet av en klick</string>
+    <string name="game_textView_cptRebonds">Studsar nummer</string>
 
     <string name="scores_button_rejouer">Spela igen</string>
     <string name="scores_button_publier">Publicera</string>
