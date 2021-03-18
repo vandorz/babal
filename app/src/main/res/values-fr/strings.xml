@@ -7,7 +7,7 @@
     <string name="menu_button_scores">Scores</string>
     <string name="menu_button_quitterJeu">Quitter</string>
     <string name="menu_button_music">Musique</string>
-    <string name="menu_textView_copyright">Copyright : Aymeric Pinel, Clément Guichard, Romain Goyheneix (support Alessandra Franzese)</string>
+    <string name="menu_textView_copyright">Copyright : Aymeric Pinel, Clément Guichard, Romain Goyheneix</string>
 
     <string name="game_textView_scoreActuel">Score</string>
     <string name="game_textView_valeurClic">Valeur d\'un clic</string>
@@ -29,6 +29,7 @@
     <string name="rules_textView_regle5">5 : Secouez le téléphone pour réinitialiser la vitesse de la balle.</string>
     <string name="rules_textView_regle6">6 : A chaque fois que vous secouez le téléphone, la vitesse de la balle augmentera plus vite.</string>
     <string name="rules_textView_regle7">7 : La lumière fait disparaître la balle progressivement. Masquez le capteur de luminosité pour inverser le processus.</string>
-    <string name="rules_textView_regle8">8 : Faites le meilleur score possible !</string>
+    <string name="rules_textView_regle8">8 : Touchez les bonus pour récupérer des jokers qui font rebondir la balle.</string>
+    <string name="rules_textView_regle9">9 : Faites le meilleur score possible !</string>
     <string name="rules_button_retour">Retour</string>
 </resources>
