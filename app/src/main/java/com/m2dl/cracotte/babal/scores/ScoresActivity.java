@@ -177,7 +177,11 @@ public class ScoresActivity extends Activity {
                 localScoresService.publishNewScore(playerName, score);
                 updateDynamicData();
             } else {
-                // TODO ...
+                Toast errorToast = new Toast(this);
+                errorToast.setDuration(Toast.LENGTH_LONG);
+                errorToast.setText("Veuillez saisir un nom pour publier votre score.");
+                errorToast.show();
+
             }
         });
         if (!hasNewScore) {
