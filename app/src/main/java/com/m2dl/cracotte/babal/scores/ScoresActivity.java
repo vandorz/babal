@@ -127,21 +127,20 @@ public class ScoresActivity extends Activity {
             return; // TODO erreur
         }
         if (scoresToShow != null  && scoresToShow.getScores() != null) {
-            updateScores(scoresToShow);
-        }
-    }
-
-    private void updateScores(ScoresTable scoresTable) {
-        TreeSet<Score> treeSetScores = createTreeSetOfScores(scoresTable);
-        for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
-            if (i >= scoresTable.getNbScores()) {
-                playerNamesList[i - 1] = "";
-                playerScoresList[i - 1] = "";
-            } else {
-                Score currentScore = treeSetScores.pollFirst();
-                if (currentScore != null) {
-                    playerNamesList[i - 1] = currentScore.getPlayerName();
-                    playerScoresList[i - 1] = currentScore.getScore().toString();
+            TreeSet<Score> treeSetScores = new TreeSet<>();
+            for (Map.Entry<String, Score> entry : scoresToShow.getScores().entrySet()) {
+                treeSetScores.add(entry.getValue());
+            }
+            for (int i=1; i<=NB_SCORES_DISPLAYED; i++) {
+                if (i >= scoresToShow.getNbScores()) {
+                    playerNamesList[i - 1] = "";
+                    playerScoresList[i - 1] = "";
+                } else {
+                    Score currentScore = treeSetScores.pollFirst();
+                    if (currentScore != null){
+                        playerNamesList[i - 1] = currentScore.getPlayerName();
+                        playerScoresList[i - 1] = currentScore.getScore().toString();
+                    }
                 }
             }
         }
