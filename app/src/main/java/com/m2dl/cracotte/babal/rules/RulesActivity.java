@@ -11,7 +11,6 @@ import com.m2dl.cracotte.babal.R;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 
 public class RulesActivity extends Activity {
-
     private Button backButton;
 
     @Override
@@ -21,11 +20,11 @@ public class RulesActivity extends Activity {
         initComponents();
     }
 
-    private void initComponents(){
+    private void initComponents() {
         initBackButton();
     }
 
-    private void initBackButton(){
+    private void initBackButton() {
         backButton = findViewById(R.id.rules_button_back);
         backButton.setOnClickListener(listener -> {
             Intent menuIntent = new Intent().setClass(listener.getContext(), MenuActivity.class);

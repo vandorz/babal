@@ -2,13 +2,17 @@ package com.m2dl.cracotte.babal.scores;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,8 +22,8 @@ import com.m2dl.cracotte.babal.game.GameActivity;
 import com.m2dl.cracotte.babal.menu.MenuActivity;
 import com.m2dl.cracotte.babal.scores.domain.Score;
 import com.m2dl.cracotte.babal.scores.domain.ScoresTable;
-import com.m2dl.cracotte.babal.scores.service.GlobalScoresService;
-import com.m2dl.cracotte.babal.scores.service.LocalScoresService;
+import com.m2dl.cracotte.babal.scores.services.GlobalScoresService;
+import com.m2dl.cracotte.babal.scores.services.LocalScoresService;
 
 import java.util.Map;
 import java.util.TreeSet;
@@ -32,7 +36,6 @@ public class ScoresActivity extends Activity {
     private ScoresTable localScoresTable;
     String[] playerNamesList = new String[NB_SCORES_DISPLAYED];
     String[] playerScoresList = new String[NB_SCORES_DISPLAYED];
-
 
     private Button publishScoreButton;
     private Button playAgainButton;
@@ -55,6 +58,7 @@ public class ScoresActivity extends Activity {
         initDatabases();
         initData();
         initComponents();
+        initRecyclerView();
         updateScoresDisplay();
     }
 
@@ -63,15 +67,15 @@ public class ScoresActivity extends Activity {
         initLocalDatabase();
     }
 
-    private void initGlobalDatabase(){
+    private void initGlobalDatabase() {
         globalScoresService = new GlobalScoresService(this);
     }
 
-    private void initLocalDatabase(){
+    private void initLocalDatabase() {
         localScoresService = new LocalScoresService(getApplicationContext());
     }
 
-    public void receiveNewDataFromDatabase(ScoresTable newScoresTable){
+    public void receiveNewDataFromDatabase(ScoresTable newScoresTable) {
         globalScoresTable = newScoresTable;
         updateDynamicData();
     }
@@ -88,11 +92,11 @@ public class ScoresActivity extends Activity {
         updateLocalScores();
     }
 
-    private void initScore(){
+    private void initScore() {
         score = getIntent().getLongExtra("scorePerformed", 0);
     }
 
-    private void updateLocalScores(){
+    private void updateLocalScores() {
         localScoresTable = localScoresService.getRegisteredScores();
     }
 
@@ -102,12 +106,12 @@ public class ScoresActivity extends Activity {
 
     private void updateScoresDisplay() {
         ScoresTable scoresToShow;
-        if (scoresTabLayout.getSelectedTabPosition() == 0){
+        if (scoresTabLayout.getSelectedTabPosition() == 0) {
             scoresToShow = localScoresTable;
-        }else if (scoresTabLayout.getSelectedTabPosition() == 1){
+        } else if (scoresTabLayout.getSelectedTabPosition() == 1) {
             scoresToShow = globalScoresTable;
-        }else{
-            return; //TODO erreur
+        } else {
+            return; // TODO erreur
         }
         if (scoresToShow != null  && scoresToShow.getScores() != null) {
             TreeSet<Score> treeSetScores = new TreeSet<>();
@@ -128,6 +132,14 @@ public class ScoresActivity extends Activity {
                 }
             }
         }
+    }
+
+    private TreeSet<Score> createTreeSetOfScores(ScoresTable scoresTable) {
+        TreeSet<Score> treeSetScores = new TreeSet<>();
+        for (Map.Entry<String, Score> entry : scoresTable.getScores().entrySet()) {
+            treeSetScores.add(entry.getValue());
+        }
+        return treeSetScores;
     }
 
     private void initComponents() {
@@ -167,7 +179,7 @@ public class ScoresActivity extends Activity {
             startActivity(gameIntent);
             finish();
         });
-        if (!hasNewScore){
+        if (!hasNewScore) {
             playAgainButton.setVisibility(View.INVISIBLE);
         }
     }
@@ -181,7 +193,7 @@ public class ScoresActivity extends Activity {
         });
     }
 
-    private void initNameEditText(){
+    private void initNameEditText() {
         nameEditText = findViewById(R.id.score_plainText_yourName);
         String playerName = localScoresService.getSavedPlayerName();
         nameEditText.setText(playerName);
@@ -190,7 +202,7 @@ public class ScoresActivity extends Activity {
         }
     }
 
-    private void initNameTextView(){
+    private void initNameTextView() {
         nameTextView = findViewById(R.id.score_textView_yourName);
         if (!hasNewScore) {
             nameTextView.setVisibility(View.INVISIBLE);
@@ -206,6 +218,27 @@ public class ScoresActivity extends Activity {
         }
     }
 
+    private void initRecyclerView() {
+        recyclerView.findViewById(R.id.score_recyclerView_affichageScores);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                    outRect.right = 0;
+                    outRect.left = 0;
+                    outRect.top = -6;
+                    outRect.bottom = -6;
+                } else {
+                    outRect.right = 0;
+                    outRect.left = 0;
+                    outRect.top = -2;
+                    outRect.bottom = -2;
+                }
+            }
+        });
+    }
+
     private void updateRecyclerView() {
         recyclerView = findViewById(R.id.score_recyclerView_affichageScores);
         ScoresAdapter scoresAdapter = new ScoresAdapter(playerNamesList,playerScoresList);
@@ -213,7 +246,7 @@ public class ScoresActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void initTabLayout(){
+    private void initTabLayout() {
         scoresTabLayout = findViewById(R.id.score_tabLayout_scoresTabLayout);
         scoresTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -223,10 +256,12 @@ public class ScoresActivity extends Activity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }

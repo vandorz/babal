@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 import com.m2dl.cracotte.babal.game.listeners.AccelerometerSensorListener;
 import com.m2dl.cracotte.babal.game.listeners.LightSensorListener;
+import com.m2dl.cracotte.babal.utils.services.MusicToggleService;
 
 public class GameActivity extends Activity {
     private GameView gameView;
@@ -35,7 +36,9 @@ public class GameActivity extends Activity {
     protected void onPause() {
         super.onPause();
         destroyAccelerometer();
-        gameView.pauseMusic();
+        if (MusicToggleService.isMusicAllowed(this)) {
+            gameView.pauseMusic();
+        }
         finish(); //Le jeu ne gère pas le resume pour le moment. Donc si on pause, on ferme tout.
     }
 
@@ -45,7 +48,9 @@ public class GameActivity extends Activity {
         initAccelerometer();
         initTouchScreen();
         initLightSensor();
-        gameView.startMusic();
+        if (MusicToggleService.isMusicAllowed(this)) {
+            gameView.startMusic();
+        }
     }
 
     @Override
@@ -53,7 +58,9 @@ public class GameActivity extends Activity {
         super.onDestroy();
         destroyAccelerometer();
         destroyLightSensor();
-        gameView.stopMusic();
+        if (MusicToggleService.isMusicAllowed(this)) {
+            gameView.stopMusic();
+        }
     }
 
     private void initListeners() {
@@ -70,7 +77,9 @@ public class GameActivity extends Activity {
     @SuppressLint("ClickableViewAccessibility")
     private void initTouchScreen() {
         gameView.setOnTouchListener((v, event) -> {
-            gameView.touchedScreenEvent(event.getX(), event.getY());
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                gameView.touchedScreenEvent(event.getX(), event.getY());
+            }
             return true;
         });
         gameView.setOnClickListener(listener -> gameView.touchedScreenEvent(listener.getPivotX(), listener.getPivotY()));

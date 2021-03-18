@@ -9,7 +9,8 @@
         android:id="@+id/score_textView_scoreRealise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,17 +18,19 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/score_recyclerView_affichageScores"
-        android:layout_width="275dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_tabLayout_scoresTabLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/score_tabLayout_scoresTabLayout" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/score_tabLayout_scoresTabLayout"
-        android:layout_width="277dp"
+        android:layout_width="@dimen/_277sdp"
         android:layout_height="42dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_textView_scoreRealise">
@@ -47,18 +50,19 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score_recyclerView_affichageScores">
 
         <EditText
             android:id="@+id/score_plainText_yourName"
-            android:layout_width="190dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:autofillHints="@string/scores_plainText_votreNom"
             android:ems="10"
             android:hint="@string/scores_plainText_votreNom"
@@ -74,7 +78,7 @@
             android:id="@+id/score_textView_yourName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/_1sdp"
             android:text="@string/scores_textView_votreNom"
             app:layout_constraintBottom_toTopOf="@+id/score_plainText_yourName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,9 +86,9 @@
 
         <Button
             android:id="@+id/score_button_menu"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:text="@string/scores_button_menu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,9 +97,9 @@
 
         <Button
             android:id="@+id/score_button_rejouer"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="15dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:text="@string/scores_button_rejouer"
             app:layout_constraintBottom_toTopOf="@+id/score_button_menu"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,9 +107,9 @@
 
         <Button
             android:id="@+id/score_button_publier"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="15dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:text="@string/scores_button_publier"
             app:layout_constraintBottom_toTopOf="@+id/score_button_rejouer"
             app:layout_constraintEnd_toEndOf="parent"
