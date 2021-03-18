@@ -28,6 +28,7 @@
     <string name="rules_textView_regle5">5 : Du kan återställa bollhastigheten genom att skaka telefonen.</string>
     <string name="rules_textView_regle6">6 : Varje gång du återställer bollens hastighet accelererar den snabbare.</string>
     <string name="rules_textView_regle7">7 : Ljus gör att bollen försvinner. Täck över ljussensorn så att den syns igen.</string>
-    <string name="rules_textView_regle8">8 : Få bästa poäng du kan!</string>
+    <string name="rules_textView_regle8">8 : Touch bonusar för att samla skämtare som studsar bollen. </string>
+    <string name="rules_textView_regle9">9 : Få bästa poäng du kan!</string>
     <string name="rules_button_retour">Tillbaka</string>
 </resources>

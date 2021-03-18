@@ -28,6 +28,7 @@
     <string name="rules_textView_regle5">5 : You can reset the ball speed by shaking your phone.</string>
     <string name="rules_textView_regle6">6 : Each time you reset the speed of the ball, it will accelerate faster.</string>
     <string name="rules_textView_regle7">7 : Light makes the ball disappear. Cover the light sensor to make it reappear.</string>
-    <string name="rules_textView_regle8">8 : Do the best score you can!</string>
+    <string name="rules_textView_regle8">8 : Touch bonuses to collect jokers that make the ball. </string>
+    <string name="rules_textView_regle9">9 : Do the best score you can!</string>
     <string name="rules_button_retour">Back</string>
 </resources>

@@ -188,7 +188,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void randomizeBonusCreation(){
-        int randomNumber = (int) randomNumber(0,50);
+        int randomNumber = (int) randomNumber(0,500);
         if (randomNumber == 1){
             initBonus();
         }
